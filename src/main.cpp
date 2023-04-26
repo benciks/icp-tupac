@@ -1,6 +1,11 @@
-#include <iostream>
+#include "pacman.h"
+
+#include <QApplication>
 
 int main(int argc, char *argv[])
 {
-    std::cout << "Hello, World!" << std::endl;
+    QApplication a(argc, argv);
+    PacMan w;
+    w.show();
+    return a.exec();
 }
