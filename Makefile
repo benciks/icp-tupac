@@ -16,7 +16,8 @@ endif
 # Recursively run make in src
 all:
 	cd src; qmake; make
-	mv src/$(OUTPUT) .
+	cp -r src/$(OUTPUT) .
+	rm -rf src/$(OUTPUT)
 
 clean:
 	cd src; rm -rf .qmake.stash main.o moc_pacman.cpp moc_pacman.o moc_predefs.h pacman.o src.pro.user Makefile ui_pacman.h

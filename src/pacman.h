@@ -17,5 +17,8 @@ public:
 
 private:
     Ui::PacMan *ui;
+
+public slots:
+    void onStart();
 };
 #endif // PACMAN_H
