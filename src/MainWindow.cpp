@@ -1,21 +1,21 @@
-#include "pacman.h"
-#include "ui_pacman.h"
+#include "MainWindow.h"
+#include "ui_MainWindow.h"
 
-PacMan::PacMan(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , ui(new Ui::PacMan)
+    , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     connect(ui->exitButton, SIGNAL(clicked(bool)), QApplication::instance(), SLOT(quit()));
     connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(onStart()));
 }
 
-PacMan::~PacMan()
+MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-void PacMan::onStart()
+void MainWindow::onStart()
 {
     // Change view, start the app here
     ui->startButton->hide();

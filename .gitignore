@@ -1,3 +1,6 @@
 examples/
 build-*/
 /.DS_Store
+pacman.app
+pacman
+pacman.exe
