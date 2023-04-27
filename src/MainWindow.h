@@ -17,6 +17,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    Game* game;
 
 public slots:
     void onStart();
