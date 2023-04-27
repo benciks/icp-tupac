@@ -11,11 +11,10 @@ class Game : public QObject
 public:
     Game(QObject* parent = nullptr) : QObject(parent) {}
 
+    void startGame() const;
+
 signals:
-    void gameOver() {};
+    void gameOver();
 
-public slots:
-    void startGame() {};
 };
-
 #endif // GAME_H

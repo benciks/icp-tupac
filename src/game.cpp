@@ -1,37 +1,40 @@
 #include "game.h"
-#include <Maze/Maze.h>
+#include "Maze/Maze.h"
 
 #include <QPainter>
+#include <iostream>
 
-Game::Game()
-
-void Game::startGame() {
-    // Initialise maze - load from file 
-    *Maze maze = new Maze('maze.txt');
-    *QPainer painter = new QPainer();
+void Game::startGame() const
+{
+    // Initialise maze - load from file
+    Maze* maze = new Maze("maze.txt");
+    QPainter* painter = new QPainter();
 
     // Draw maze
-    for (int i = 0; i < maze->getRows(); i++) {
-        for (int j = 0; j < maze->getCols(); j++) {
-            switch (maze->getMaze()[i][j]) {
-                case instanceof(Wall):
-                    painter->setBrush(Qt::black);
-                    painter->drawRect();
-                case instanceof(Ghost):
-                    painter->setBrush(Qt::red);
-                    painter->drawRect();
-                case instanceof(PacMan):
-                    pointer->setBrush(Qt::yellow);
-                    painter->drawRect();
-                case instanceof(Start):
-                    painter->setBrush(Qt::green);
-                    painter->drawRect();
-                case instanceof(Target):
-                    painter->setBrush(Qt::blue);
-                    painter->drawRect();
-                default:
-                    painter->setBrush(Qt::white);
-                    painter->drawRect();
+    for (int i = 0; i < maze->getRows(); i++)
+    {
+        for (int j = 0; j < maze->getCols(); j++)
+        {
+            switch (maze->getElementAt(i, j)->getSymbol())
+            {
+            case 'W':
+                painter->setBrush(Qt::black);
+                painter->drawRect(i+10,j+10,10,10);
+            case 'G':
+                painter->setBrush(Qt::red);
+                painter->drawRect(i+10,j+10,10,10);
+            case 'P':
+                painter->setBrush(Qt::yellow);
+                painter->drawRect(i+10,j+10,10,10);
+            case 'S':
+                painter->setBrush(Qt::green);
+                painter->drawRect(i+10,j+10,10,10);
+            case 'T':
+                painter->setBrush(Qt::blue);
+                painter->drawRect(i+10,j+10, 10,10);
+            default:
+                painter->setBrush(Qt::white);
+                painter->drawRect(i+10, j+10, 10, 10);
             }
         }
     }

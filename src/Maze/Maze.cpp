@@ -1,6 +1,13 @@
 // Maze.cpp
 
 #include "Maze.h"
+#include "Target.h"
+#include "Wall.h"
+#include "Ghost.h"
+#include "PacMan.h"
+#include "Key.h"
+#include "Start.h"
+#include "Empty.h"
 #include <fstream>
 
 Maze::Maze(std::string filename) {
@@ -90,4 +97,12 @@ void Maze::setElementAt(int x, int y, MazeElement* element) {
 
 PacMan* Maze::getPacMan() const {
     return pacMan;
+}
+
+int Maze::getCols() const {
+    return numCols;
+}
+
+int Maze::getRows() const {
+    return numRows;
 }

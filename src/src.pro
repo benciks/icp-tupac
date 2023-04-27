@@ -11,13 +11,22 @@ CONFIG += c++17
 SOURCES += \
     MainWindow.cpp \
     main.cpp \
-    pacman.cpp \
-    MazeElement.cpp \
+    game.cpp \
+    Maze/Maze.cpp \
+    Maze/PacMan.cpp \
 
 HEADERS += \
     MainWindow.h \
-    pacman.h \
-    MazeElement.h \
+    game.h \
+    Maze/MazeElement.h \
+    Maze/Maze.h \
+    Maze/Empty.h \
+    Maze/Ghost.h \
+    Maze/Key.h \
+    Maze/PacMan.h \
+    Maze/Start.h \
+    Maze/Target.h \
+    Maze/Wall.h \
 
 FORMS += \
     MainWindow.ui
