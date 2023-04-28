@@ -20,5 +20,5 @@ all:
 	rm -rf src/$(OUTPUT)
 
 clean:
-	cd src; rm -rf .qmake.stash main.o moc_pacman.cpp moc_pacman.o moc_predefs.h pacman.o src.pro.user Makefile ui_pacman.h
+	cd src; make clean;
 	rm -rf $(OUTPUT)
