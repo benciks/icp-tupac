@@ -4,6 +4,18 @@
 #include <iostream>
 #include <vector>
 
+class Maze;
+
+enum class Direction
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
+
+
+
 class MazeElement
 {
 public:
@@ -26,6 +38,15 @@ class Pacman : public MazeElement
 {
 public:
     char getSymbol() override;
+    void move(Direction direction, const Maze& maze);
+
+    int getRow() const { return row; }
+    int getCol() const { return col; }
+    void setPosition(int newRow, int newCol) { row = newRow; col = newCol; }
+
+private:
+    int row;
+    int col;
 };
 
 class Ghost : public MazeElement
@@ -52,7 +73,8 @@ public:
     Maze(std::string filename);
     int getRows() const;
     int getCols() const;
-    MazeElement *getElementAt(int row, int col);
+    MazeElement *getElementAt(int row, int col) const;
+    void setElementAt(int row, int col, MazeElement *element);
 
 private:
     int rows;

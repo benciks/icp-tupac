@@ -9,6 +9,7 @@ class Game : public QWidget
 public:
     Game(QWidget *parent = nullptr);
     void paintMaze();
+    void movePacman(Direction direction); 
 
 private:
     Maze *maze;
@@ -16,6 +17,7 @@ private:
 protected:
     void paintEvent(QPaintEvent *event) override;
     void paintElement(QPainter &painter, char symbol, int x, int y, int cellSize);
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // ICP_PACMAN_GAME_H

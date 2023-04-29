@@ -4,10 +4,47 @@
 #include <QPainter>
 #include <QWidget>
 #include <QDebug>
+#include <QKeyEvent>
 
 Game::Game(QWidget *parent) : QWidget(parent)
 {
     maze = new Maze("maze.txt");
+}
+
+void Game::movePacman(Direction direction)
+{
+    Pacman *pacman = nullptr;
+    int pacmanRow = -1;
+    int pacmanCol = -1;
+
+    // Find Pacman
+    for (int i = 0; i < maze->getRows(); i++)
+    {
+        for (int j = 0; j < maze->getCols(); j++)
+        {
+            MazeElement *element = maze->getElementAt(i, j);
+            if (element->getSymbol() == 'S')
+            {
+                pacman = dynamic_cast<Pacman *>(element);
+                pacmanRow = i;
+                pacmanCol = j;
+                break;
+            }
+        }
+
+        if (pacman != nullptr)
+            break;
+    }
+
+    // Move Pacman
+    if (pacman != nullptr)
+    {
+        pacman->move(direction, *maze);
+
+        // Update maze
+        maze->setElementAt(pacmanRow, pacmanCol, new Empty());
+        maze->setElementAt(pacman->getRow(), pacman->getCol(), pacman);
+    }
 }
 
 void Game::paintElement(QPainter &painter, char symbol, int x, int y, int cellSize)
@@ -55,4 +92,27 @@ void Game::paintMaze()
 void Game::paintEvent(QPaintEvent *event)
 {
     paintMaze();
+}
+
+void Game::keyPressEvent(QKeyEvent *event)
+{
+    switch (event->key())
+    {
+    case Qt::Key_Up:
+        movePacman(Direction::UP);
+        break;
+    case Qt::Key_Down:
+        movePacman(Direction::DOWN);
+        break;
+    case Qt::Key_Left:
+        movePacman(Direction::LEFT);
+        break;
+    case Qt::Key_Right:
+        movePacman(Direction::RIGHT);
+        break;
+    default:
+        QWidget::keyPressEvent(event);
+    }
+
+     update(rect()); // Trigger a repaint after moving Pacman
 }
