@@ -5,10 +5,14 @@
 #include <QWidget>
 #include <QDebug>
 #include <QKeyEvent>
+#include <QFocusEvent>
 
 Game::Game(QWidget *parent) : QWidget(parent)
 {
     maze = new Maze("maze.txt");
+    setFixedSize(maze->getCols() * 20, maze->getRows() * 20); // Set the fixed size for the widget
+    setFocusPolicy(Qt::StrongFocus); // Set focus policy
+    setFocus(); // Set focus on the widget
 }
 
 void Game::movePacman(Direction direction)
