@@ -70,7 +70,7 @@ void Maze::loadFromFile(const std::string &filename)
                     std::cerr << "Multiple starting positions found!" << std::endl;
                     exit(1);
                 }
-                grid[i][j] = new Pacman();
+                grid[i][j] = new Pacman(i, j); // Set the initial position
                 break;
             case 'X':
                 grid[i][j] = new Wall();

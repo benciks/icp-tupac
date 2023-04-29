@@ -37,6 +37,7 @@ public:
 class Pacman : public MazeElement
 {
 public:
+    Pacman(int row, int col) : row(row), col(col) {}
     char getSymbol() override;
     void move(Direction direction, const Maze& maze);
 
@@ -48,6 +49,7 @@ private:
     int row;
     int col;
 };
+
 
 class Ghost : public MazeElement
 {

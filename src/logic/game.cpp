@@ -10,7 +10,7 @@
 Game::Game(QWidget *parent) : QWidget(parent)
 {
     maze = new Maze("maze.txt");
-    setFixedSize(maze->getCols() * 20, maze->getRows() * 20); // Set the fixed size for the widget
+    //setFixedSize(maze->getCols() * 20, maze->getRows() * 20); // Set the fixed size for the widget
     setFocusPolicy(Qt::StrongFocus); // Set focus policy
     setFocus(); // Set focus on the widget
 }
