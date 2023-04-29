@@ -15,6 +15,7 @@ private:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
+    void paintElement(QPainter &painter, char symbol, int x, int y, int cellSize);
 };
 
 #endif // ICP_PACMAN_GAME_H

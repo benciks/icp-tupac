@@ -2,6 +2,7 @@
 #define ICP_PACMAN_MAZE_H
 
 #include <iostream>
+#include <vector>
 
 class MazeElement
 {

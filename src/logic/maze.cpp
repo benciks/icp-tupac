@@ -4,7 +4,7 @@
 
 Maze::Maze(std::string filename)
 {
-    loadFromFile(filename);
+    loadFromFile("../src/logic/" + filename);
 }
 
 void Maze::loadFromFile(const std::string &filename)
