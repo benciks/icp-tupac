@@ -51,15 +51,16 @@ void Game::movePacman(Direction direction)
     }
 }
 
-void Game::paintElement(QPainter &painter, char symbol, int x, int y, int cellSize)
+void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, int cellSize)
 {
+    char symbol = element->getSymbol();
     switch (symbol)
     {
     case 'X':
         painter.setBrush(Qt::black);
         break;
     case 'G':
-        painter.setBrush(Qt::red);
+        painter.setBrush(static_cast<Ghost *>(element)->getColor());
         break;
     case 'S':
         painter.setBrush(Qt::green);
@@ -87,8 +88,8 @@ void Game::paintMaze()
     {
         for (int j = 0; j < maze->getCols(); j++)
         {
-            char symbol = maze->getElementAt(i, j)->getSymbol();
-            paintElement(painter, symbol, j, i, cellSize);
+            MazeElement *element = maze->getElementAt(i, j);
+            paintElement(painter, element, j, i, cellSize);
         }
     }
 }

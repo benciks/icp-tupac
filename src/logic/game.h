@@ -16,7 +16,7 @@ private:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
-    void paintElement(QPainter &painter, char symbol, int x, int y, int cellSize);
+    void paintElement(QPainter &painter, MazeElement *element, int x, int y, int cellSize);
     void keyPressEvent(QKeyEvent *event) override;
 };
 

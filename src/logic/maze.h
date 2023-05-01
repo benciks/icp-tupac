@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <QColor>
 
 class Maze;
 
@@ -54,7 +55,12 @@ private:
 class Ghost : public MazeElement
 {
 public:
+    Ghost(const QColor &color) : color(color) {}
     char getSymbol() override;
+    const QColor &getColor() const { return color; }
+
+private:
+    QColor color;
 };
 
 class Key : public MazeElement

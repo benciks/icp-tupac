@@ -51,6 +51,23 @@ void Maze::loadFromFile(const std::string &filename)
             case 'G':
                 if (numGhosts < 4)
                 {
+                    QColor ghostColor;
+                    switch (numGhosts)
+                    {
+                    case 0:
+                        ghostColor = Qt::red;
+                        break;
+                    case 1:
+                        ghostColor = Qt::magenta;
+                        break;
+                    case 2:
+                        ghostColor = Qt::cyan;
+                        break;
+                    case 3:
+                        ghostColor = Qt::yellow;
+                        break;
+                    }
+                    grid[i][j] = new Ghost(ghostColor);
                     numGhosts++;
                 }
                 else
@@ -58,7 +75,6 @@ void Maze::loadFromFile(const std::string &filename)
                     std::cerr << "Too many ghosts!" << std::endl;
                     exit(1);
                 }
-                grid[i][j] = new Ghost();
                 break;
             case 'S':
                 if (!hasStart)
