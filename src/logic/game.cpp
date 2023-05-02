@@ -22,10 +22,10 @@ Game::Game(QWidget *parent) : QWidget(parent)
     setFocusPolicy(Qt::StrongFocus); // Set focus policy
     setFocus();                      // Set focus on the widget
 
-    moveTimer = new QTimer(this);                                  
-    connect(moveTimer, &QTimer::timeout, this, &Game::movePacman); 
+    moveTimer = new QTimer(this);
+    connect(moveTimer, &QTimer::timeout, this, &Game::movePacman);
     moveTimer->start(200);
-    keyCollected = !maze->hasKey();                                         
+    keyCollected = !maze->hasKey();
 }
 
 void Game::movePacman()
@@ -65,20 +65,23 @@ void Game::movePacman()
         {
             keyCollected = true;
         }
-        
+
         // Update maze
         maze->setElementAt(pacmanRow, pacmanCol, new Empty());
 
         // check if Pac-Man is on target and key is collected
-        if (maze->getElementAt(pacman->getRow(), pacman->getCol())->getSymbol() == 'T' && keyCollected) {
+        if (maze->getElementAt(pacman->getRow(), pacman->getCol())->getSymbol() == 'T' && keyCollected)
+        {
             qDebug() << "END OF GAME";
             moveTimer->stop();
             QMessageBox::information(this, "Game Over", "gadzo");
-        } else {
+        }
+        else
+        {
             maze->setElementAt(pacman->getRow(), pacman->getCol(), pacman);
         }
-        
-        update(); 
+
+        update();
     }
 }
 
@@ -116,12 +119,10 @@ void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, i
         painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Pacman *>(element)->getPixmap());
         break;
     case 'T':
-        painter.setBrush(Qt::blue);
-        painter.drawRect(x, y, cellSize, cellSize);
+        painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Target *>(element)->getPixmap());
         break;
     case 'K':
-        painter.setBrush(Qt::red);
-        painter.drawRect(x, y, cellSize, cellSize);
+        painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Key *>(element)->getPixmap());
         break;
     case '.':
     default:
@@ -136,7 +137,7 @@ void Game::paintMaze()
     QPainter painter(this);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
     painter.setPen(Qt::transparent);
-    //qDebug() << "paintMaze() called";
+    // qDebug() << "paintMaze() called";
 
     // Set the background color
     painter.setBackground(QBrush(QColor(4, 8, 15, 255)));

@@ -5,6 +5,8 @@
         <file>data/ghost_red.png</file>
         <file>data/pacman.png</file>
         <file>data/ghost_blue.png</file>
+        <file>data/door.png</file>
+        <file>data/key.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

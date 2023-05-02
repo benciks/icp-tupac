@@ -79,12 +79,14 @@ class Key : public MazeElement
 {
 public:
     char getSymbol() override;
+    QPixmap getPixmap() const { return QPixmap(":/images/data/key.png"); }
 };
 
 class Target : public MazeElement
 {
 public:
     char getSymbol() override;
+    QPixmap getPixmap() const { return QPixmap(":/images/data/door.png"); }
 };
 
 class Maze
