@@ -57,16 +57,16 @@ void Maze::loadFromFile(const std::string &filename)
                     switch (numGhosts)
                     {
                     case 0:
-                        pixmap = QPixmap(":/images/data/ghost_red.png");
+                        pixmap = QPixmap(":/images/data/blinky_right.png");
                         break;
                     case 1:
-                        pixmap = QPixmap(":/images/data/ghost_purple.png");
+                        pixmap = QPixmap(":/images/data/pinky_right.png");
                         break;
                     case 2:
-                        pixmap = QPixmap(":/images/data/ghost_blue.png");
+                        pixmap = QPixmap(":/images/data/inky_right.png");
                         break;
                     case 3:
-                        pixmap = QPixmap(":/images/data/ghost_green.png");
+                        pixmap = QPixmap(":/images/data/clyde_right.png");
                         break;
                     }
                     grid[i][j] = new Ghost(pixmap);
