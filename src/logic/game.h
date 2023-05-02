@@ -16,6 +16,7 @@ public:
 private:
     Maze *maze;
     QTimer *moveTimer; 
+    bool keyCollected;
 
 protected:
     void paintEvent(QPaintEvent *event) override;

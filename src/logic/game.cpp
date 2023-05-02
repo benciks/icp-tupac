@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QKeyEvent>
 #include <QFocusEvent>
+#include <QMessageBox>
 
 #include <QTimer>
 
@@ -21,9 +22,10 @@ Game::Game(QWidget *parent) : QWidget(parent)
     setFocusPolicy(Qt::StrongFocus); // Set focus policy
     setFocus();                      // Set focus on the widget
 
-    moveTimer = new QTimer(this);                                  // Initialize moveTimer
-    connect(moveTimer, &QTimer::timeout, this, &Game::movePacman); // Connect moveTimer timeout signal to movePacman slot
-    moveTimer->start(200);                                         // Start moveTimer with a 200 ms interval
+    moveTimer = new QTimer(this);                                  
+    connect(moveTimer, &QTimer::timeout, this, &Game::movePacman); 
+    moveTimer->start(200);
+    keyCollected = !maze->hasKey();                                         
 }
 
 void Game::movePacman()
@@ -55,13 +57,28 @@ void Game::movePacman()
     if (pacman != nullptr)
     {
         Direction currentDirection = pacman->getCurrentDirection();
-        pacman->move(currentDirection, *maze);
+        pacman->move(currentDirection, *maze, keyCollected);
 
+        // Check if Pacman is on a key
+        MazeElement *nextElement = maze->getElementAt(pacman->getRow(), pacman->getCol());
+        if (nextElement->getSymbol() == 'K')
+        {
+            keyCollected = true;
+        }
+        
         // Update maze
         maze->setElementAt(pacmanRow, pacmanCol, new Empty());
-        maze->setElementAt(pacman->getRow(), pacman->getCol(), pacman);
 
-        update(); // Add this line to update the display after moving Pacman
+        // check if Pac-Man is on target and key is collected
+        if (maze->getElementAt(pacman->getRow(), pacman->getCol())->getSymbol() == 'T' && keyCollected) {
+            qDebug() << "END OF GAME";
+            moveTimer->stop();
+            QMessageBox::information(this, "Game Over", "gadzo");
+        } else {
+            maze->setElementAt(pacman->getRow(), pacman->getCol(), pacman);
+        }
+        
+        update(); 
     }
 }
 
@@ -102,6 +119,10 @@ void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, i
         painter.setBrush(Qt::blue);
         painter.drawRect(x, y, cellSize, cellSize);
         break;
+    case 'K':
+        painter.setBrush(Qt::red);
+        painter.drawRect(x, y, cellSize, cellSize);
+        break;
     case '.':
     default:
         painter.setBrush(QColor(4, 8, 15, 255));
@@ -115,7 +136,7 @@ void Game::paintMaze()
     QPainter painter(this);
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
     painter.setPen(Qt::transparent);
-    qDebug() << "paintMaze() called";
+    //qDebug() << "paintMaze() called";
 
     // Set the background color
     painter.setBackground(QBrush(QColor(4, 8, 15, 255)));
@@ -144,6 +165,7 @@ void Game::paintMaze()
 
 void Game::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     paintMaze();
 }
 

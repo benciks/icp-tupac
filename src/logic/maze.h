@@ -39,7 +39,7 @@ class Pacman : public MazeElement
 public:
     Pacman(int row, int col) : row(row), col(col), currentDirection(Direction::RIGHT) {} // Initialize currentDirection
     char getSymbol() override;
-    void move(Direction &currentDirection, const Maze &maze);
+    void move(Direction &currentDirection, const Maze &maze, bool keyCollected);
 
     // Getter functions
     int getRow() const { return row; }
@@ -95,7 +95,8 @@ public:
     int getCols() const;
     MazeElement *getElementAt(int row, int col) const;
     void setElementAt(int row, int col, MazeElement *element);
-    bool isPositionValid(int row, int col) const;
+    bool isPositionValid(int row, int col, bool keyCollected) const;
+    bool hasKey() const;
 
 private:
     int rows;

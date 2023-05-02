@@ -141,7 +141,7 @@ void Maze::setElementAt(int row, int col, MazeElement *element)
     grid[row][col] = element;
 }
 
-bool Maze::isPositionValid(int row, int col) const
+bool Maze::isPositionValid(int row, int col, bool keyCollected) const
 {
     // Check if the position is within the maze boundaries
     if (row < 0 || row >= rows || col < 0 || col >= cols)
@@ -149,6 +149,11 @@ bool Maze::isPositionValid(int row, int col) const
         return false;
     }
 
+    // Check if the position is not occupied by a target when the key is not collected
+    if (!keyCollected && dynamic_cast<Target *>(grid[row][col]))
+    {
+        return false;
+    }
     // Check if the position is not occupied by a wall
     return !(dynamic_cast<Wall *>(grid[row][col]));
 }
@@ -168,7 +173,7 @@ char Pacman::getSymbol()
     return 'S';
 }
 
-void Pacman::move(Direction &currentDirection, const Maze &maze)
+void Pacman::move(Direction &currentDirection, const Maze &maze, bool keyCollected)
 {
     int newRow = row;
     int newCol = col;
@@ -189,7 +194,7 @@ void Pacman::move(Direction &currentDirection, const Maze &maze)
         break;
     }
 
-    if (maze.isPositionValid(newRow, newCol))
+    if (maze.isPositionValid(newRow, newCol, keyCollected))
     {
         row = newRow;
         col = newCol;
@@ -218,7 +223,7 @@ void Pacman::move(Direction &currentDirection, const Maze &maze)
         }
 
         // If the previous direction is not blocked, keep moving in that direction
-        if (maze.isPositionValid(newRow, newCol))
+        if (maze.isPositionValid(newRow, newCol, keyCollected))
         {
             row = newRow;
             col = newCol;
@@ -239,4 +244,19 @@ char Key::getSymbol()
 char Target::getSymbol()
 {
     return 'T';
+}
+
+bool Maze::hasKey() const
+{
+    for (int i = 0; i < this->rows; ++i)
+    {
+        for (int j = 0; j < this->cols; ++j)
+        {
+            if (grid[i][j]->getSymbol() == 'K')
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
