@@ -140,6 +140,16 @@ void Maze::setElementAt(int row, int col, MazeElement *element)
     grid[row][col] = element;
 }
 
+bool Maze::isPositionValid(int row, int col) const {
+    // Check if the position is within the maze boundaries
+    if (row < 0 || row >= rows || col < 0 || col >= cols) {
+        return false;
+    }
+
+    // Check if the position is not occupied by a wall
+    return !(dynamic_cast<Wall *>(grid[row][col]));
+}
+
 char Wall::getSymbol()
 {
     return 'X';
@@ -155,32 +165,61 @@ char Pacman::getSymbol()
     return 'S';
 }
 
-void Pacman::move(Direction direction, const Maze& maze)
+void Pacman::move(Direction &currentDirection, const Maze& maze)
 {
     int newRow = row;
     int newCol = col;
 
-    switch (direction)
+    switch (currentDirection)
     {
     case Direction::UP:
-        newRow -= 1;
+        newRow--;
         break;
     case Direction::DOWN:
-        newRow += 1;
+        newRow++;
         break;
     case Direction::LEFT:
-        newCol -= 1;
+        newCol--;
         break;
     case Direction::RIGHT:
-        newCol += 1;
+        newCol++;
         break;
     }
 
-    // Check if the new position is inside the maze and not a wall
-    if (newRow >= 0 && newRow < maze.getRows() && newCol >= 0 && newCol < maze.getCols() && maze.getElementAt(newRow, newCol)->getSymbol() != 'X')
+    if (maze.isPositionValid(newRow, newCol))
     {
         row = newRow;
         col = newCol;
+    }
+    else
+    {
+        // If the current direction is blocked, try to continue moving in the previous direction
+        switch (this->currentDirection)
+        {
+        case Direction::UP:
+            newRow = row - 1;
+            newCol = col;
+            break;
+        case Direction::DOWN:
+            newRow = row + 1;
+            newCol = col;
+            break;
+        case Direction::LEFT:
+            newRow = row;
+            newCol = col - 1;
+            break;
+        case Direction::RIGHT:
+            newRow = row;
+            newCol = col + 1;
+            break;
+        }
+
+        // If the previous direction is not blocked, keep moving in that direction
+        if (maze.isPositionValid(newRow, newCol))
+        {
+            row = newRow;
+            col = newCol;
+        }
     }
 }
 

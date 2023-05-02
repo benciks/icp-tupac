@@ -15,8 +15,6 @@ enum class Direction
     RIGHT
 };
 
-
-
 class MazeElement
 {
 public:
@@ -38,17 +36,25 @@ public:
 class Pacman : public MazeElement
 {
 public:
-    Pacman(int row, int col) : row(row), col(col) {}
+    Pacman(int row, int col) : row(row), col(col), currentDirection(Direction::RIGHT) {} // Initialize currentDirection
     char getSymbol() override;
-    void move(Direction direction, const Maze& maze);
+    void move(Direction &currentDirection, const Maze& maze); // Pass currentDirection as a reference
 
+    // Getter functions
     int getRow() const { return row; }
     int getCol() const { return col; }
-    void setPosition(int newRow, int newCol) { row = newRow; col = newCol; }
+    Direction getCurrentDirection() const { return currentDirection; }
+
+    // Setter functions
+    void setRow(int newRow) { row = newRow; }
+    void setCol(int newCol) { col = newCol; }
+    void setCurrentDirection(Direction newDirection) { currentDirection = newDirection; }
+
 
 private:
     int row;
     int col;
+    Direction currentDirection; // Add currentDirection attribute
 };
 
 
@@ -83,6 +89,7 @@ public:
     int getCols() const;
     MazeElement *getElementAt(int row, int col) const;
     void setElementAt(int row, int col, MazeElement *element);
+    bool isPositionValid(int row, int col) const;
 
 private:
     int rows;

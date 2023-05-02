@@ -4,20 +4,27 @@
 #include <QWidget>
 #include "maze.h"
 
+#include <QTimer>
+
 class Game : public QWidget
 {
 public:
     Game(QWidget *parent = nullptr);
     void paintMaze();
-    void movePacman(Direction direction); 
+    void rotatePacman(Direction direction); 
 
 private:
     Maze *maze;
+    QTimer *moveTimer; 
 
 protected:
     void paintEvent(QPaintEvent *event) override;
     void paintElement(QPainter &painter, MazeElement *element, int x, int y, int cellSize);
     void keyPressEvent(QKeyEvent *event) override;
+
+private slots:
+    void movePacman(); 
 };
+
 
 #endif // ICP_PACMAN_GAME_H

@@ -7,15 +7,20 @@
 #include <QKeyEvent>
 #include <QFocusEvent>
 
+#include <QTimer>
+
 Game::Game(QWidget *parent) : QWidget(parent)
 {
     maze = new Maze("maze.txt");
-    //setFixedSize(maze->getCols() * 20, maze->getRows() * 20); // Set the fixed size for the widget
-    setFocusPolicy(Qt::StrongFocus); // Set focus policy
-    setFocus(); // Set focus on the widget
+    setFocusPolicy(Qt::StrongFocus);
+    setFocus();
+
+    moveTimer = new QTimer(this); // Initialize moveTimer
+    connect(moveTimer, &QTimer::timeout, this, &Game::movePacman); // Connect moveTimer timeout signal to movePacman slot
+    moveTimer->start(200); // Start moveTimer with a 200 ms interval
 }
 
-void Game::movePacman(Direction direction)
+void Game::movePacman()
 {
     Pacman *pacman = nullptr;
     int pacmanRow = -1;
@@ -43,11 +48,32 @@ void Game::movePacman(Direction direction)
     // Move Pacman
     if (pacman != nullptr)
     {
-        pacman->move(direction, *maze);
+        Direction currentDirection = pacman->getCurrentDirection();
+        pacman->move(currentDirection, *maze);
 
         // Update maze
         maze->setElementAt(pacmanRow, pacmanCol, new Empty());
         maze->setElementAt(pacman->getRow(), pacman->getCol(), pacman);
+
+        update(); // Add this line to update the display after moving Pacman
+    }
+}
+
+void Game::rotatePacman(Direction newDirection)
+{
+    // Find Pacman
+    for (int i = 0; i < maze->getRows(); i++)
+    {
+        for (int j = 0; j < maze->getCols(); j++)
+        {
+            MazeElement *element = maze->getElementAt(i, j);
+            if (element->getSymbol() == 'S')
+            {
+                Pacman *pacman = dynamic_cast<Pacman *>(element);
+                pacman->setCurrentDirection(newDirection);
+                break;
+            }
+        }
     }
 }
 
@@ -104,20 +130,20 @@ void Game::keyPressEvent(QKeyEvent *event)
     switch (event->key())
     {
     case Qt::Key_Up:
-        movePacman(Direction::UP);
+        rotatePacman(Direction::UP);
         break;
     case Qt::Key_Down:
-        movePacman(Direction::DOWN);
+        rotatePacman(Direction::DOWN);
         break;
     case Qt::Key_Left:
-        movePacman(Direction::LEFT);
+        rotatePacman(Direction::LEFT);
         break;
     case Qt::Key_Right:
-        movePacman(Direction::RIGHT);
+        rotatePacman(Direction::RIGHT);
         break;
     default:
         QWidget::keyPressEvent(event);
     }
 
-     update(rect()); // Trigger a repaint after moving Pacman
+    // Don't update here, update will be called in the game loop
 }
