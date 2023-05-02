@@ -11,12 +11,13 @@ class Game : public QWidget
 public:
     Game(QWidget *parent = nullptr);
     void paintMaze();
-    void rotatePacman(Direction direction); 
+    void rotatePacman(Direction direction);
 
 private:
     Maze *maze;
-    QTimer *moveTimer; 
-    bool keyCollected;
+    QTimer *moveTimer;
+    bool exitOpened = false;
+    int keysCollected = 0;
 
 protected:
     void paintEvent(QPaintEvent *event) override;
@@ -24,8 +25,7 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private slots:
-    void movePacman(); 
+    void movePacman();
 };
-
 
 #endif // ICP_PACMAN_GAME_H

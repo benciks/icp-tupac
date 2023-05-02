@@ -25,7 +25,7 @@ Game::Game(QWidget *parent) : QWidget(parent)
     moveTimer = new QTimer(this);
     connect(moveTimer, &QTimer::timeout, this, &Game::movePacman);
     moveTimer->start(200);
-    keyCollected = !maze->hasKey();
+    exitOpened = maze->getKeys() == 0;
 }
 
 void Game::movePacman()
@@ -57,20 +57,25 @@ void Game::movePacman()
     if (pacman != nullptr)
     {
         Direction currentDirection = pacman->getCurrentDirection();
-        pacman->move(currentDirection, *maze, keyCollected);
+        pacman->move(currentDirection, *maze, exitOpened);
 
         // Check if Pacman is on a key
         MazeElement *nextElement = maze->getElementAt(pacman->getRow(), pacman->getCol());
         if (nextElement->getSymbol() == 'K')
         {
-            keyCollected = true;
+            keysCollected++;
+            if (keysCollected == maze->getKeys())
+            {
+                exitOpened = true;
+                qDebug() << "EXIT OPENED";
+            }
         }
 
         // Update maze
         maze->setElementAt(pacmanRow, pacmanCol, new Empty());
 
         // check if Pac-Man is on target and key is collected
-        if (maze->getElementAt(pacman->getRow(), pacman->getCol())->getSymbol() == 'T' && keyCollected)
+        if (maze->getElementAt(pacman->getRow(), pacman->getCol())->getSymbol() == 'T' && exitOpened)
         {
             qDebug() << "END OF GAME";
             moveTimer->stop();
@@ -110,7 +115,7 @@ void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, i
     switch (symbol)
     {
     case 'X':
-        painter.setBrush(QColor(80, 125, 188, 255));
+        painter.setBrush(QColor(33, 33, 255, 255));
         painter.drawRect(x, y, cellSize, cellSize);
         break;
     case 'G':

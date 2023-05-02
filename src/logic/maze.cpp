@@ -48,6 +48,7 @@ void Maze::loadFromFile(const std::string &filename)
                 break;
             case 'K':
                 grid[i][j] = new Key();
+                keys++;
                 break;
             case 'G':
                 if (numGhosts < 4)
@@ -129,6 +130,11 @@ int Maze::getRows() const
 int Maze::getCols() const
 {
     return cols;
+}
+
+int Maze::getKeys() const
+{
+    return keys;
 }
 
 MazeElement *Maze::getElementAt(int row, int col) const
@@ -267,19 +273,4 @@ char Key::getSymbol()
 char Target::getSymbol()
 {
     return 'T';
-}
-
-bool Maze::hasKey() const
-{
-    for (int i = 0; i < this->rows; ++i)
-    {
-        for (int j = 0; j < this->cols; ++j)
-        {
-            if (grid[i][j]->getSymbol() == 'K')
-            {
-                return true;
-            }
-        }
-    }
-    return false;
 }

@@ -62,7 +62,7 @@ public:
 private:
     int row;
     int col;
-    Direction currentDirection;                                        // Add currentDirection attribute
+    Direction currentDirection; // Add currentDirection attribute
     QPixmap currentSprite;
 };
 
@@ -97,14 +97,15 @@ public:
     Maze(std::string filename);
     int getRows() const;
     int getCols() const;
+    int getKeys() const;
     MazeElement *getElementAt(int row, int col) const;
     void setElementAt(int row, int col, MazeElement *element);
     bool isPositionValid(int row, int col, bool keyCollected) const;
-    bool hasKey() const;
 
 private:
     int rows;
     int cols;
+    int keys = 0;
     void loadFromFile(const std::string &filename);
     std::vector<std::vector<MazeElement *>> grid;
 };
