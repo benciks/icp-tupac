@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>data/ghost_green.png</file>
+        <file>data/ghost_purple.png</file>
+        <file>data/ghost_red.png</file>
+        <file>data/pacman.png</file>
+        <file>data/ghost_blue.png</file>
+    </qresource>
+    <qresource prefix="/"/>
+</RCC>

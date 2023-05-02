@@ -11,13 +11,19 @@
 
 Game::Game(QWidget *parent) : QWidget(parent)
 {
-    maze = new Maze("maze.txt");
-    setFocusPolicy(Qt::StrongFocus);
-    setFocus();
+#if __APPLE__
+    maze = new Maze("../../../logic/maze.txt");
+#else
+    maze = new Maze("../logic/maze.txt");
+#endif
 
-    moveTimer = new QTimer(this); // Initialize moveTimer
+    // setFixedSize(maze->getCols() * 20, maze->getRows() * 20); // Set the fixed size for the widget
+    setFocusPolicy(Qt::StrongFocus); // Set focus policy
+    setFocus();                      // Set focus on the widget
+
+    moveTimer = new QTimer(this);                                  // Initialize moveTimer
     connect(moveTimer, &QTimer::timeout, this, &Game::movePacman); // Connect moveTimer timeout signal to movePacman slot
-    moveTimer->start(200); // Start moveTimer with a 200 ms interval
+    moveTimer->start(200);                                         // Start moveTimer with a 200 ms interval
 }
 
 void Game::movePacman()
@@ -83,39 +89,55 @@ void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, i
     switch (symbol)
     {
     case 'X':
-        painter.setBrush(Qt::black);
+        painter.setBrush(QColor(80, 125, 188, 255));
+        painter.drawRect(x, y, cellSize, cellSize);
         break;
     case 'G':
-        painter.setBrush(static_cast<Ghost *>(element)->getColor());
+        painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Ghost *>(element)->getPixmap());
         break;
     case 'S':
-        painter.setBrush(Qt::green);
+        painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Pacman *>(element)->getPixmap());
         break;
     case 'T':
         painter.setBrush(Qt::blue);
+        painter.drawRect(x, y, cellSize, cellSize);
         break;
     case '.':
     default:
-        painter.setBrush(Qt::white);
+        painter.setBrush(QColor(4, 8, 15, 255));
+        painter.drawRect(x, y, cellSize, cellSize);
         break;
     }
-    painter.drawRect(x * cellSize, y * cellSize, cellSize, cellSize);
 }
 
 void Game::paintMaze()
 {
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.setPen(Qt::transparent);
     qDebug() << "paintMaze() called";
 
-    int cellSize = 20;
+    // Set the background color
+    painter.setBackground(QBrush(QColor(4, 8, 15, 255)));
+    painter.eraseRect(rect());
+
+    // Calculate the cell size based on the width and height of the widget
+    int cellSize = qMin(width() / maze->getCols(), height() / maze->getRows());
+
+    // Calculate the offset to center the maze
+    int xOffset = (width() - cellSize * maze->getCols()) / 2;
+    int yOffset = (height() - cellSize * maze->getRows()) / 2;
 
     for (int i = 0; i < maze->getRows(); i++)
     {
         for (int j = 0; j < maze->getCols(); j++)
         {
             MazeElement *element = maze->getElementAt(i, j);
-            paintElement(painter, element, j, i, cellSize);
+
+            int x = xOffset + j * cellSize;
+            int y = yOffset + i * cellSize;
+
+            paintElement(painter, element, x, y, cellSize);
         }
     }
 }
@@ -145,5 +167,5 @@ void Game::keyPressEvent(QKeyEvent *event)
         QWidget::keyPressEvent(event);
     }
 
-    // Don't update here, update will be called in the game loop
+    update(rect()); // Trigger a repaint after moving Pacman
 }

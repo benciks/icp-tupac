@@ -28,3 +28,9 @@ TARGET = pacman
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+# Fixes missing path on macos
+QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.15
+
+RESOURCES += \
+    resources.qrc

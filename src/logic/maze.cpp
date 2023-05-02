@@ -4,7 +4,7 @@
 
 Maze::Maze(std::string filename)
 {
-    loadFromFile("../src/logic/" + filename);
+    loadFromFile(filename);
 }
 
 void Maze::loadFromFile(const std::string &filename)
@@ -18,6 +18,7 @@ void Maze::loadFromFile(const std::string &filename)
     }
 
     input >> rows >> cols;
+    std::cout << "Rows: " << rows << ", cols: " << cols << std::endl;
     grid.resize(rows, std::vector<MazeElement *>(cols));
 
     int numGhosts = 0;
@@ -51,23 +52,23 @@ void Maze::loadFromFile(const std::string &filename)
             case 'G':
                 if (numGhosts < 4)
                 {
-                    QColor ghostColor;
+                    QPixmap pixmap;
                     switch (numGhosts)
                     {
                     case 0:
-                        ghostColor = Qt::red;
+                        pixmap = QPixmap(":/images/data/ghost_red.png");
                         break;
                     case 1:
-                        ghostColor = Qt::magenta;
+                        pixmap = QPixmap(":/images/data/ghost_purple.png");
                         break;
                     case 2:
-                        ghostColor = Qt::cyan;
+                        pixmap = QPixmap(":/images/data/ghost_blue.png");
                         break;
                     case 3:
-                        ghostColor = Qt::yellow;
+                        pixmap = QPixmap(":/images/data/ghost_green.png");
                         break;
                     }
-                    grid[i][j] = new Ghost(ghostColor);
+                    grid[i][j] = new Ghost(pixmap);
                     numGhosts++;
                 }
                 else
@@ -140,9 +141,11 @@ void Maze::setElementAt(int row, int col, MazeElement *element)
     grid[row][col] = element;
 }
 
-bool Maze::isPositionValid(int row, int col) const {
+bool Maze::isPositionValid(int row, int col) const
+{
     // Check if the position is within the maze boundaries
-    if (row < 0 || row >= rows || col < 0 || col >= cols) {
+    if (row < 0 || row >= rows || col < 0 || col >= cols)
+    {
         return false;
     }
 
@@ -165,7 +168,7 @@ char Pacman::getSymbol()
     return 'S';
 }
 
-void Pacman::move(Direction &currentDirection, const Maze& maze)
+void Pacman::move(Direction &currentDirection, const Maze &maze)
 {
     int newRow = row;
     int newCol = col;

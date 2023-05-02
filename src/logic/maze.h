@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <QColor>
+#include <QPixmap>
 
 class Maze;
 
@@ -38,18 +39,24 @@ class Pacman : public MazeElement
 public:
     Pacman(int row, int col) : row(row), col(col), currentDirection(Direction::RIGHT) {} // Initialize currentDirection
     char getSymbol() override;
-    void move(Direction &currentDirection, const Maze& maze); // Pass currentDirection as a reference
+    void move(Direction direction, const Maze &maze);
 
     // Getter functions
     int getRow() const { return row; }
     int getCol() const { return col; }
+    QPixmap getPixmap() const { return QPixmap(":/images/data/pacman.png"); }
     Direction getCurrentDirection() const { return currentDirection; }
 
     // Setter functions
-    void setRow(int newRow) { row = newRow; }
-    void setCol(int newCol) { col = newCol; }
+    void setRow(int newRow)
+    {
+        row = newRow;
+    }
+    void setCol(int newCol)
+    {
+        col = newCol;
+    }
     void setCurrentDirection(Direction newDirection) { currentDirection = newDirection; }
-
 
 private:
     int row;
@@ -57,16 +64,15 @@ private:
     Direction currentDirection; // Add currentDirection attribute
 };
 
-
 class Ghost : public MazeElement
 {
 public:
-    Ghost(const QColor &color) : color(color) {}
+    Ghost(const QPixmap &pixmap) : pixmap(pixmap) {}
     char getSymbol() override;
-    const QColor &getColor() const { return color; }
+    const QPixmap &getPixmap() const { return pixmap; }
 
 private:
-    QColor color;
+    QPixmap pixmap;
 };
 
 class Key : public MazeElement
