@@ -14,7 +14,7 @@ Game::Game(QWidget *parent) : QWidget(parent)
 #if __APPLE__
     maze = new Maze("../../../logic/maze.txt");
 #else
-    maze = new Maze("../logic/maze.txt");
+    maze = new Maze("../src/logic/maze.txt");
 #endif
 
     // setFixedSize(maze->getCols() * 20, maze->getRows() * 20); // Set the fixed size for the widget
