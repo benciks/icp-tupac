@@ -231,6 +231,29 @@ void Pacman::move(Direction &currentDirection, const Maze &maze, bool keyCollect
     }
 }
 
+void Pacman::setPixmap(Direction newDirection)
+{
+    switch (newDirection)
+    {
+    case Direction::UP:
+        currentSprite = QPixmap(":/images/data/pacman_up.png");
+        break;
+    case Direction::DOWN:
+        currentSprite = QPixmap(":/images/data/pacman_down.png");
+        break;
+    case Direction::LEFT:
+        currentSprite = QPixmap(":/images/data/pacman_left.png");
+        break;
+    case Direction::RIGHT:
+        currentSprite = QPixmap(":/images/data/pacman_right.png");
+        break;
+
+    default:
+        currentSprite = QPixmap(":/images/data/pacman_right.png");
+        break;
+    }
+}
+
 char Ghost::getSymbol()
 {
     return 'G';

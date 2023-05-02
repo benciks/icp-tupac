@@ -37,14 +37,14 @@ public:
 class Pacman : public MazeElement
 {
 public:
-    Pacman(int row, int col) : row(row), col(col), currentDirection(Direction::RIGHT) {} // Initialize currentDirection
+    Pacman(int row, int col) : row(row), col(col), currentDirection(Direction::RIGHT), currentSprite(QPixmap(":/images/data/pacman_right.png")) {} // Initialize currentDirection
     char getSymbol() override;
     void move(Direction &currentDirection, const Maze &maze, bool keyCollected);
 
     // Getter functions
     int getRow() const { return row; }
     int getCol() const { return col; }
-    QPixmap getPixmap() const { return QPixmap(":/images/data/pacman.png"); }
+    QPixmap getPixmap() const { return currentSprite; }
     Direction getCurrentDirection() const { return currentDirection; }
 
     // Setter functions
@@ -57,11 +57,13 @@ public:
         col = newCol;
     }
     void setCurrentDirection(Direction newDirection) { currentDirection = newDirection; }
+    void setPixmap(Direction newDirection);
 
 private:
     int row;
     int col;
-    Direction currentDirection; // Add currentDirection attribute
+    Direction currentDirection;                                        // Add currentDirection attribute
+    QPixmap currentSprite;
 };
 
 class Ghost : public MazeElement

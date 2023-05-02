@@ -3,10 +3,13 @@
         <file>data/ghost_green.png</file>
         <file>data/ghost_purple.png</file>
         <file>data/ghost_red.png</file>
-        <file>data/pacman.png</file>
         <file>data/ghost_blue.png</file>
         <file>data/door.png</file>
         <file>data/key.png</file>
+        <file>data/pacman_down.png</file>
+        <file>data/pacman_left.png</file>
+        <file>data/pacman_right.png</file>
+        <file>data/pacman_up.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

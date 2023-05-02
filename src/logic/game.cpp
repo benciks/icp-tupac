@@ -97,6 +97,7 @@ void Game::rotatePacman(Direction newDirection)
             {
                 Pacman *pacman = dynamic_cast<Pacman *>(element);
                 pacman->setCurrentDirection(newDirection);
+                pacman->setPixmap(newDirection);
                 break;
             }
         }
