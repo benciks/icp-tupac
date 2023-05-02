@@ -39,7 +39,7 @@ class Pacman : public MazeElement
 public:
     Pacman(int row, int col) : row(row), col(col), currentDirection(Direction::RIGHT) {} // Initialize currentDirection
     char getSymbol() override;
-    void move(Direction direction, const Maze &maze);
+    void move(Direction &currentDirection, const Maze &maze);
 
     // Getter functions
     int getRow() const { return row; }
