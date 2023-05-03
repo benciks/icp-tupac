@@ -3,11 +3,12 @@
 
 #include <QWidget>
 #include "maze.h"
-
+#include <QObject>
 #include <QTimer>
 
 class Game : public QWidget
 {
+    Q_OBJECT
 public:
     Game(QWidget *parent = nullptr);
     void paintMaze();
@@ -27,6 +28,9 @@ protected:
 
 private slots:
     void movePacman();
+
+signals:
+    void scoreChanged(int newScore);
 };
 
 #endif // ICP_PACMAN_GAME_H

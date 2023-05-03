@@ -23,5 +23,8 @@ public:
 private:
     Ui::MainWindow *ui;
     QLabel *scoreLabel;
+
+private slots:
+    void updateScoreLabel(int newScore);
 };
 #endif // MAINWINDOW_H

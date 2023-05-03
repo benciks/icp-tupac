@@ -7,6 +7,12 @@
 #include <QFont>
 #include <QString>
 
+
+void MainWindow::updateScoreLabel(int newScore)
+{
+    scoreLabel->setText(QString("Score: %1").arg(newScore));
+}
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -31,6 +37,9 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *centralWidget = new QWidget();
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
+
+    connect(game, &Game::scoreChanged, this, &MainWindow::updateScoreLabel); // Connect the signal to the slot
+    game->setGeometry(QRect(10, 10, 500, 500));
 
     game->paintMaze();
 }

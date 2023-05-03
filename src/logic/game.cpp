@@ -64,6 +64,7 @@ void Game::movePacman()
         if (nextElement->getSymbol() == '.')
         {
             score += 10; // Update the score accordingly
+            emit scoreChanged(score); // Emit the signal
             maze->setElementAt(pacman->getRow(), pacman->getCol(), new Empty());
         }
 
