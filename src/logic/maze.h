@@ -38,6 +38,7 @@ class Collectible : public MazeElement
 {
 public:
     char getSymbol() override;
+    QPixmap getPixmap() const { return QPixmap(":/images/data/fruit.png"); }
 };
 
 class Pacman : public MazeElement

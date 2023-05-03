@@ -96,6 +96,9 @@ void Maze::loadFromFile(const std::string &filename)
             case '.':
                 grid[i][j] = new Collectible();
                 break;
+            case 'E':
+                grid[i][j] = new Empty();
+                break;
             default:
                 std::cerr << "Unknown maze symbol " << symbol << std::endl;
                 exit(1);

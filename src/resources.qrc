@@ -22,6 +22,7 @@
         <file>data/pinky_left.png</file>
         <file>data/pinky_right.png</file>
         <file>data/pinky_up.png</file>
+        <file>data/fruit.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

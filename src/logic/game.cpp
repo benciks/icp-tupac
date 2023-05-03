@@ -64,10 +64,9 @@ void Game::movePacman()
         if (nextElement->getSymbol() == '.')
         {
             score += 10; // Update the score accordingly
-            qDebug() << "SCORE: " << score;
             maze->setElementAt(pacman->getRow(), pacman->getCol(), new Empty());
         }
-        
+
         // Check if Pacman is on a key
         if (nextElement->getSymbol() == 'K')
         {
@@ -138,10 +137,13 @@ void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, i
     case 'K':
         painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Key *>(element)->getPixmap());
         break;
-    case '.':
-    default:
+    case ' ':
         painter.setBrush(QColor(4, 8, 15, 255));
         painter.drawRect(x, y, cellSize, cellSize);
+        break;
+    case '.':
+    default:
+        painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Collectible *>(element)->getPixmap());
         break;
     }
 }
