@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     scoreLabel = new QLabel(this);
 
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->addWidget(scoreLabel, 1);
+    layout->addWidget(scoreLabel, 0, Qt::AlignCenter); // Center the score label
     layout->addWidget(game, 30);
     layout->setContentsMargins(0, 0, 0, 0);
 
