@@ -59,8 +59,16 @@ void Game::movePacman()
         Direction currentDirection = pacman->getCurrentDirection();
         pacman->move(currentDirection, *maze, exitOpened);
 
-        // Check if Pacman is on a key
+        // Check if Pacman is on a collectible
         MazeElement *nextElement = maze->getElementAt(pacman->getRow(), pacman->getCol());
+        if (nextElement->getSymbol() == '.')
+        {
+            score += 10; // Update the score accordingly
+            qDebug() << "SCORE: " << score;
+            maze->setElementAt(pacman->getRow(), pacman->getCol(), new Empty());
+        }
+        
+        // Check if Pacman is on a key
         if (nextElement->getSymbol() == 'K')
         {
             keysCollected++;

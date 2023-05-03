@@ -94,10 +94,10 @@ void Maze::loadFromFile(const std::string &filename)
                 grid[i][j] = new Wall();
                 break;
             case '.':
-                grid[i][j] = new Empty();
+                grid[i][j] = new Collectible();
                 break;
             default:
-                std::cerr << "Unknown symbol " << symbol << std::endl;
+                std::cerr << "Unknown maze symbol " << symbol << std::endl;
                 exit(1);
             }
         }
@@ -170,6 +170,11 @@ char Wall::getSymbol()
 }
 
 char Empty::getSymbol()
+{
+    return ' ';
+}
+
+char Collectible::getSymbol()
 {
     return '.';
 }

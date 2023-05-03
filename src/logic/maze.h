@@ -34,6 +34,12 @@ public:
     char getSymbol() override;
 };
 
+class Collectible : public MazeElement
+{
+public:
+    char getSymbol() override;
+};
+
 class Pacman : public MazeElement
 {
 public:

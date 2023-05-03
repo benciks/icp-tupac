@@ -18,6 +18,7 @@ private:
     QTimer *moveTimer;
     bool exitOpened = false;
     int keysCollected = 0;
+    int score = 0;
 
 protected:
     void paintEvent(QPaintEvent *event) override;
