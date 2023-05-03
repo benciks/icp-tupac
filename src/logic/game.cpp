@@ -17,7 +17,6 @@ Game::Game(QWidget *parent) : QWidget(parent)
 #else
     maze = new Maze("../src/logic/maze.txt");
 #endif
-
     // setFixedSize(maze->getCols() * 20, maze->getRows() * 20); // Set the fixed size for the widget
     setFocusPolicy(Qt::StrongFocus); // Set focus policy
     setFocus();                      // Set focus on the widget
@@ -63,7 +62,7 @@ void Game::movePacman()
         MazeElement *nextElement = maze->getElementAt(pacman->getRow(), pacman->getCol());
         if (nextElement->getSymbol() == '.')
         {
-            score += 10; // Update the score accordingly
+            score += 10;              // Update the score accordingly
             emit scoreChanged(score); // Emit the signal
             maze->setElementAt(pacman->getRow(), pacman->getCol(), new Empty());
         }

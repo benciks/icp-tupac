@@ -7,7 +7,6 @@
 #include <QFont>
 #include <QString>
 
-
 void MainWindow::updateScoreLabel(int newScore)
 {
     scoreLabel->setText(QString("Score: %1").arg(newScore));
@@ -26,20 +25,20 @@ MainWindow::MainWindow(QWidget *parent)
     scoreLabel = new QLabel(this);
 
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->addWidget(scoreLabel);
-    layout->addWidget(game);
+    layout->addWidget(scoreLabel, 1);
+    layout->addWidget(game, 30);
     layout->setContentsMargins(0, 0, 0, 0);
 
     scoreLabel->setText("Score: 0");
     scoreLabel->setStyleSheet("color: #FFFFFF;");
     scoreLabel->setFont(QFont("Arial", 16));
+    scoreLabel->setMargin(0);
 
     QWidget *centralWidget = new QWidget();
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
 
     connect(game, &Game::scoreChanged, this, &MainWindow::updateScoreLabel); // Connect the signal to the slot
-    game->setGeometry(QRect(10, 10, 500, 500));
 
     game->paintMaze();
 }
