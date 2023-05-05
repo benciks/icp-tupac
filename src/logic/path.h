@@ -2,6 +2,8 @@
 #define ICP_PACMAN_PATH_H
 
 #include "maze.h"
+#include <vector>
+#include <queue>
 #include <iostream>
 
 class Node
@@ -23,5 +25,5 @@ public:
     }
 };
 
-enum Direction AStar(int startRow, int startCol, int endRow, int endCol, const Maze &maze);
+std::vector<std::pair<int, int>> AStar(int startRow, int startCol, int endRow, int endCol, const Maze &maze);
 #endif

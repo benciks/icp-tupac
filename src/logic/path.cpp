@@ -2,7 +2,7 @@
 #include <queue>
 #include "path.h"
 
-enum Direction AStar(int startRow, int startCol, int endRow, int endCol, const Maze &maze)
+std::vector<std::pair<int, int>> AStar(int startRow, int startCol, int endRow, int endCol, const Maze &maze)
 {
     // Create a priority queue for the open list
     std::priority_queue<Node, std::vector<Node>, std::greater<Node>> openList;
@@ -25,8 +25,6 @@ enum Direction AStar(int startRow, int startCol, int endRow, int endCol, const M
         // Get the node with the lowest f cost from the open list
         Node currentNode = openList.top();
 
-        std::cout << "Current node: " << currentNode.row << ", " << currentNode.col << std::endl;
-
         // Remove the current node from the open list
         openList.pop();
 
@@ -45,32 +43,24 @@ enum Direction AStar(int startRow, int startCol, int endRow, int endCol, const M
                 currentNode = Node(parentMap[std::make_pair(currentNode.row, currentNode.col)].first, parentMap[std::make_pair(currentNode.row, currentNode.col)].second, 0, 0, nullptr);
             }
 
-            // If the path is not empty, return the next direction
-            if (!path.empty())
-            {
-                int nextRow = path[0].first;
-                int nextCol = path[0].second;
+            // // Print the path
+            // std::cout << "Calculated path: ";
+            // for (auto it = path.rbegin(); it != path.rend(); ++it)
+            // {
+            //     std::cout << "(" << it->first << ", " << it->second << ") ";
+            // }
+            // std::cout << std::endl;
 
-                if (nextRow == startRow - 1 && nextCol == startCol)
-                {
-                    return Direction::UP;
-                }
-                else if (nextRow == startRow + 1 && nextCol == startCol)
-                {
-                    return Direction::DOWN;
-                }
-                else if (nextRow == startRow && nextCol == startCol - 1)
-                {
-                    return Direction::LEFT;
-                }
-                else if (nextRow == startRow && nextCol == startCol + 1)
-                {
-                    return Direction::RIGHT;
-                }
+            // Follow the parent nodes to construct the path
+            while (parentMap.find(std::make_pair(currentNode.row, currentNode.col)) != parentMap.end())
+            {
+                path.push_back(std::make_pair(currentNode.row, currentNode.col));
+                currentNode = Node(parentMap[std::make_pair(currentNode.row, currentNode.col)].first, parentMap[std::make_pair(currentNode.row, currentNode.col)].second, 0, 0, nullptr);
             }
 
-            // If the path is empty, return direction::NONE
-            return Direction::NONE;
+            // Reverse the path and return it
+            std::reverse(path.begin(), path.end());
+            return path;
         }
 
         // Generate the neighbors of the current node
@@ -120,5 +110,5 @@ enum Direction AStar(int startRow, int startCol, int endRow, int endCol, const M
     }
 
     // If no path is found, return an empty vector
-    return Direction::NONE;
+    return std::vector<std::pair<int, int>>();
 }

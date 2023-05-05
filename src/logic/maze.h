@@ -83,13 +83,11 @@ public:
     void chase(Pacman &pacman, const Maze &maze);
     int getRow() const { return row; }
     int getCol() const { return col; }
-    void setCurrentDirection(Direction newDirection) { currentDirection = newDirection; }
 
 private:
     QPixmap pixmap;
     int row;
     int col;
-    Direction currentDirection = Direction::UP;
 };
 
 class Key : public MazeElement

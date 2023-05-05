@@ -296,30 +296,24 @@ void Ghost::chase(Pacman &pacman, const Maze &maze)
     int pacmanRow = pacman.getRow();
     int pacmanCol = pacman.getCol();
 
-    // Find the shortest path from the ghost to the pacman using A*
-    Direction nextDirection = AStar(ghostRow, ghostCol, pacmanRow, pacmanCol, maze);
-
-    std::cout << "Direction: " << static_cast<int>(nextDirection) << std::endl; // Output: Direction: 2
-
-    // Move the ghost in the next direction
-    switch (nextDirection)
+    // // Find the shortest path from the ghost to the pacman using A*
+    std::vector<std::pair<int, int>> path = AStar(ghostRow, ghostCol, pacmanRow, pacmanCol, maze);
+    if (path.size() > 1)
     {
-    case Direction::UP:
-        ghostRow--;
-        break;
-    case Direction::DOWN:
-        ghostRow++;
-        break;
-    case Direction::LEFT:
-        ghostCol--;
-        break;
-    case Direction::RIGHT:
-        ghostCol++;
-        break;
-    }
+        // Get the next position in the path
+        std::pair<int, int> nextPosition = path[1];
+        int nextRow = nextPosition.first;
+        int nextCol = nextPosition.second;
 
-    row = ghostRow;
-    col = ghostCol;
+        std::cout << "Current row: " << row << " Current col: " << col << std::endl;
+        std::cout << "Next row: " << nextRow << " Next col: " << nextCol << std::endl;
+        // Move the ghost in the next direction
+        if (maze.isGhostPositionValid(nextRow, nextCol))
+        {
+            row = nextRow;
+            col = nextCol;
+        }
+    }
 }
 
 char Key::getSymbol()

@@ -17,6 +17,7 @@ public:
 private:
     Maze *maze;
     QTimer *moveTimer;
+    QTimer *ghostTimer;
     bool exitOpened = false;
     int keysCollected = 0;
     int score = 0;
@@ -28,6 +29,7 @@ protected:
 
 private slots:
     void movePacman();
+    void moveGhosts();
 
 signals:
     void scoreChanged(int newScore);

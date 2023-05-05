@@ -24,6 +24,11 @@ Game::Game(QWidget *parent) : QWidget(parent)
     moveTimer = new QTimer(this);
     connect(moveTimer, &QTimer::timeout, this, &Game::movePacman);
     moveTimer->start(200);
+
+    ghostTimer = new QTimer(this);
+    connect(ghostTimer, &QTimer::timeout, this, &Game::moveGhosts);
+    ghostTimer->start(600);
+
     exitOpened = maze->getKeys() == 0;
 }
 
@@ -50,20 +55,6 @@ void Game::movePacman()
 
         if (pacman != nullptr)
             break;
-    }
-
-    // Find ghosts
-    for (int i = 0; i < maze->getRows(); i++)
-    {
-        for (int j = 0; j < maze->getCols(); j++)
-        {
-            MazeElement *element = maze->getElementAt(i, j);
-            if (element->getSymbol() == 'G')
-            {
-                Ghost *ghost = dynamic_cast<Ghost *>(element);
-                ghost->chase(*pacman, *maze);
-            }
-        }
     }
 
     // Move Pacman
@@ -128,6 +119,53 @@ void Game::rotatePacman(Direction newDirection)
             }
         }
     }
+}
+
+void Game::moveGhosts()
+{
+    Pacman *pacman = nullptr;
+
+    // Find Pacman
+    for (int i = 0; i < maze->getRows(); i++)
+    {
+        for (int j = 0; j < maze->getCols(); j++)
+        {
+            MazeElement *element = maze->getElementAt(i, j);
+            if (element->getSymbol() == 'S')
+            {
+                pacman = dynamic_cast<Pacman *>(element);
+                break;
+            }
+        }
+
+        if (pacman != nullptr)
+            break;
+    }
+
+    // Find ghosts and add them to an array
+    std::vector<Ghost *> ghosts;
+    for (int i = 0; i < maze->getRows(); i++)
+    {
+        for (int j = 0; j < maze->getCols(); j++)
+        {
+            MazeElement *element = maze->getElementAt(i, j);
+            if (element->getSymbol() == 'G')
+            {
+                Ghost *ghost = dynamic_cast<Ghost *>(element);
+                ghosts.push_back(ghost);
+            }
+        }
+    }
+
+    // Set the position of each ghost and update the maze
+    for (int i = 0; i < ghosts.size(); i++)
+    {
+        maze->setElementAt(ghosts[i]->getRow(), ghosts[i]->getCol(), new Empty());
+        ghosts[i]->chase(*pacman, *maze);
+        maze->setElementAt(ghosts[i]->getRow(), ghosts[i]->getCol(), ghosts[i]);
+    }
+
+    update();
 }
 
 void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, int cellSize)
