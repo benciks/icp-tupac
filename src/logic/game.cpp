@@ -27,7 +27,7 @@ Game::Game(QWidget *parent) : QWidget(parent)
 
     ghostTimer = new QTimer(this);
     connect(ghostTimer, &QTimer::timeout, this, &Game::moveGhosts);
-    ghostTimer->start(600);
+    ghostTimer->start(800);
 
     exitOpened = maze->getKeys() == 0;
 }
@@ -143,7 +143,6 @@ void Game::moveGhosts()
     }
 
     // Find ghosts and add them to an array
-    std::vector<Ghost *> ghosts;
     for (int i = 0; i < maze->getRows(); i++)
     {
         for (int j = 0; j < maze->getCols(); j++)
@@ -152,20 +151,34 @@ void Game::moveGhosts()
             if (element->getSymbol() == 'G')
             {
                 Ghost *ghost = dynamic_cast<Ghost *>(element);
-                ghosts.push_back(ghost);
+                MazeElement *previousElement = ghost->getCurrent();
+                int ghostRow = ghost->getRow();
+                int ghostCol = ghost->getCol();
+
+                // Replace current
+                ghost->chase(*pacman, *maze);
+                int newGhostRow = ghost->getRow();
+                int newGhostCol = ghost->getCol();
+
+                if (maze->isGhostPositionValid(newGhostRow, newGhostCol))
+                {
+                    MazeElement *current = maze->getElementAt(newGhostRow, newGhostCol);
+                    ghost->setCurrent(current);
+
+                    // Set previous element back to the maze
+                    if (previousElement != nullptr)
+                    {
+                        maze->setElementAt(i, j, previousElement);
+                    }
+                    else
+                    {
+                        maze->setElementAt(i, j, new Empty());
+                    }
+                    maze->setElementAt(newGhostRow, newGhostCol, ghost);
+                }
             }
         }
     }
-
-    // Set the position of each ghost and update the maze
-    for (int i = 0; i < ghosts.size(); i++)
-    {
-        maze->setElementAt(ghosts[i]->getRow(), ghosts[i]->getCol(), new Empty());
-        ghosts[i]->chase(*pacman, *maze);
-        maze->setElementAt(ghosts[i]->getRow(), ghosts[i]->getCol(), ghosts[i]);
-    }
-
-    update();
 }
 
 void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, int cellSize)
@@ -258,5 +271,5 @@ void Game::keyPressEvent(QKeyEvent *event)
         QWidget::keyPressEvent(event);
     }
 
-    update(rect()); // Trigger a repaint after moving Pacman
+    // update(rect()); // Trigger a repaint after moving Pacman
 }

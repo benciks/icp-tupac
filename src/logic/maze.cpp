@@ -176,6 +176,12 @@ bool Maze::isGhostPositionValid(int row, int col) const
         return false;
     }
 
+    // Check if the position is not occupied by a ghost
+    if (dynamic_cast<Ghost *>(grid[row][col]))
+    {
+        return false;
+    }
+
     // Check if the position is not occupied by a wall
     return !(dynamic_cast<Wall *>(grid[row][col]));
 }
@@ -301,12 +307,10 @@ void Ghost::chase(Pacman &pacman, const Maze &maze)
     if (path.size() > 1)
     {
         // Get the next position in the path
-        std::pair<int, int> nextPosition = path[1];
+        std::pair<int, int> nextPosition = path[0];
         int nextRow = nextPosition.first;
         int nextCol = nextPosition.second;
 
-        std::cout << "Current row: " << row << " Current col: " << col << std::endl;
-        std::cout << "Next row: " << nextRow << " Next col: " << nextCol << std::endl;
         // Move the ghost in the next direction
         if (maze.isGhostPositionValid(nextRow, nextCol))
         {

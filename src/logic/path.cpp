@@ -43,7 +43,7 @@ std::vector<std::pair<int, int>> AStar(int startRow, int startCol, int endRow, i
                 currentNode = Node(parentMap[std::make_pair(currentNode.row, currentNode.col)].first, parentMap[std::make_pair(currentNode.row, currentNode.col)].second, 0, 0, nullptr);
             }
 
-            // // Print the path
+            // Print the path
             // std::cout << "Calculated path: ";
             // for (auto it = path.rbegin(); it != path.rend(); ++it)
             // {

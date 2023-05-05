@@ -83,11 +83,24 @@ public:
     void chase(Pacman &pacman, const Maze &maze);
     int getRow() const { return row; }
     int getCol() const { return col; }
+    // Setter functions
+    void setRow(int newRow)
+    {
+        row = newRow;
+    }
+    void setCol(int newCol)
+    {
+        col = newCol;
+    }
+
+    MazeElement *getCurrent() const { return current; }
+    void setCurrent(MazeElement *newCurrent) { current = newCurrent; }
 
 private:
     QPixmap pixmap;
     int row;
     int col;
+    MazeElement *current;
 };
 
 class Key : public MazeElement
