@@ -13,7 +13,8 @@ enum class Direction
     UP,
     DOWN,
     LEFT,
-    RIGHT
+    RIGHT,
+    NONE
 };
 
 class MazeElement
@@ -76,12 +77,19 @@ private:
 class Ghost : public MazeElement
 {
 public:
-    Ghost(const QPixmap &pixmap) : pixmap(pixmap) {}
+    Ghost(const QPixmap &pixmap, int row, int col) : pixmap(pixmap), row(row), col(col) {}
     char getSymbol() override;
     const QPixmap &getPixmap() const { return pixmap; }
+    void chase(Pacman &pacman, const Maze &maze);
+    int getRow() const { return row; }
+    int getCol() const { return col; }
+    void setCurrentDirection(Direction newDirection) { currentDirection = newDirection; }
 
 private:
     QPixmap pixmap;
+    int row;
+    int col;
+    Direction currentDirection = Direction::UP;
 };
 
 class Key : public MazeElement
@@ -108,6 +116,7 @@ public:
     MazeElement *getElementAt(int row, int col) const;
     void setElementAt(int row, int col, MazeElement *element);
     bool isPositionValid(int row, int col, bool keyCollected) const;
+    bool isGhostPositionValid(int row, int col) const;
 
 private:
     int rows;

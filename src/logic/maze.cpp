@@ -1,6 +1,7 @@
 #include "maze.h"
 #include <fstream>
 #include <iostream>
+#include "path.h"
 
 Maze::Maze(std::string filename)
 {
@@ -69,7 +70,7 @@ void Maze::loadFromFile(const std::string &filename)
                         pixmap = QPixmap(":/images/data/clyde_right.png");
                         break;
                     }
-                    grid[i][j] = new Ghost(pixmap);
+                    grid[i][j] = new Ghost(pixmap, i, j);
                     numGhosts++;
                 }
                 else
@@ -163,6 +164,18 @@ bool Maze::isPositionValid(int row, int col, bool keyCollected) const
     {
         return false;
     }
+    // Check if the position is not occupied by a wall
+    return !(dynamic_cast<Wall *>(grid[row][col]));
+}
+
+bool Maze::isGhostPositionValid(int row, int col) const
+{
+    // Check if the position is within the maze boundaries
+    if (row < 0 || row >= rows || col < 0 || col >= cols)
+    {
+        return false;
+    }
+
     // Check if the position is not occupied by a wall
     return !(dynamic_cast<Wall *>(grid[row][col]));
 }
@@ -271,6 +284,42 @@ void Pacman::setPixmap(Direction newDirection)
 char Ghost::getSymbol()
 {
     return 'G';
+}
+
+void Ghost::chase(Pacman &pacman, const Maze &maze)
+{
+    // Get the current ghost position
+    int ghostRow = row;
+    int ghostCol = col;
+
+    // Get the current pacman position
+    int pacmanRow = pacman.getRow();
+    int pacmanCol = pacman.getCol();
+
+    // Find the shortest path from the ghost to the pacman using A*
+    Direction nextDirection = AStar(ghostRow, ghostCol, pacmanRow, pacmanCol, maze);
+
+    std::cout << "Direction: " << static_cast<int>(nextDirection) << std::endl; // Output: Direction: 2
+
+    // Move the ghost in the next direction
+    switch (nextDirection)
+    {
+    case Direction::UP:
+        ghostRow--;
+        break;
+    case Direction::DOWN:
+        ghostRow++;
+        break;
+    case Direction::LEFT:
+        ghostCol--;
+        break;
+    case Direction::RIGHT:
+        ghostCol++;
+        break;
+    }
+
+    row = ghostRow;
+    col = ghostCol;
 }
 
 char Key::getSymbol()

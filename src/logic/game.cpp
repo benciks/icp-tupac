@@ -52,6 +52,20 @@ void Game::movePacman()
             break;
     }
 
+    // Find ghosts
+    for (int i = 0; i < maze->getRows(); i++)
+    {
+        for (int j = 0; j < maze->getCols(); j++)
+        {
+            MazeElement *element = maze->getElementAt(i, j);
+            if (element->getSymbol() == 'G')
+            {
+                Ghost *ghost = dynamic_cast<Ghost *>(element);
+                ghost->chase(*pacman, *maze);
+            }
+        }
+    }
+
     // Move Pacman
     if (pacman != nullptr)
     {

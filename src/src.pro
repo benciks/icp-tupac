@@ -13,11 +13,13 @@ SOURCES += \
     MainWindow.cpp \
     logic/game.cpp \
     logic/maze.cpp \
+    logic/path.cpp \
 
 HEADERS += \
     MainWindow.h \
     logic/game.h \
     logic/maze.h \
+    logic/path.h \
 
 FORMS += \
     MainWindow.ui
