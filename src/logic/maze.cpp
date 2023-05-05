@@ -54,6 +54,7 @@ void Maze::loadFromFile(const std::string &filename)
             case 'G':
                 if (numGhosts < 4)
                 {
+                    ghosts++;
                     QPixmap pixmap;
                     switch (numGhosts)
                     {
@@ -310,6 +311,9 @@ void Ghost::chase(Pacman &pacman, const Maze &maze)
         std::pair<int, int> nextPosition = path[0];
         int nextRow = nextPosition.first;
         int nextCol = nextPosition.second;
+
+        std::cout << "Ghost: " << ghostRow << ", " << ghostCol << std::endl;
+        std::cout << "Next: " << nextRow << ", " << nextCol << std::endl;
 
         // Move the ghost in the next direction
         if (maze.isGhostPositionValid(nextRow, nextCol))

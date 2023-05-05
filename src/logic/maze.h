@@ -95,12 +95,15 @@ public:
 
     MazeElement *getCurrent() const { return current; }
     void setCurrent(MazeElement *newCurrent) { current = newCurrent; }
+    void setCurrentDirection(Direction newDirection) { currentDirection = newDirection; }
+    Direction getCurrentDirection() const { return currentDirection; }
 
 private:
     QPixmap pixmap;
     int row;
     int col;
-    MazeElement *current;
+    MazeElement *current = nullptr;
+    Direction currentDirection = Direction::NONE;
 };
 
 class Key : public MazeElement
@@ -133,6 +136,7 @@ private:
     int rows;
     int cols;
     int keys = 0;
+    int ghosts = 0;
     void loadFromFile(const std::string &filename);
     std::vector<std::vector<MazeElement *>> grid;
 };

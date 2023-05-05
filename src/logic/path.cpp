@@ -44,7 +44,8 @@ std::vector<std::pair<int, int>> AStar(int startRow, int startCol, int endRow, i
             }
 
             // Print the path
-            // std::cout << "Calculated path: ";
+            // std::cout
+            //     << "Calculated path: ";
             // for (auto it = path.rbegin(); it != path.rend(); ++it)
             // {
             //     std::cout << "(" << it->first << ", " << it->second << ") ";

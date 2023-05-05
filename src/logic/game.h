@@ -13,6 +13,7 @@ public:
     Game(QWidget *parent = nullptr);
     void paintMaze();
     void rotatePacman(Direction direction);
+    int getGhostCount() { return ghosts; };
 
 private:
     Maze *maze;
@@ -21,6 +22,7 @@ private:
     bool exitOpened = false;
     int keysCollected = 0;
     int score = 0;
+    int ghosts = 0;
 
 protected:
     void paintEvent(QPaintEvent *event) override;

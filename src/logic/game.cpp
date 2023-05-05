@@ -7,6 +7,8 @@
 #include <QKeyEvent>
 #include <QFocusEvent>
 #include <QMessageBox>
+#include <chrono>
+#include <ctime>
 
 #include <QTimer>
 
@@ -23,11 +25,11 @@ Game::Game(QWidget *parent) : QWidget(parent)
 
     moveTimer = new QTimer(this);
     connect(moveTimer, &QTimer::timeout, this, &Game::movePacman);
-    moveTimer->start(200);
+    moveTimer->start(150);
 
     ghostTimer = new QTimer(this);
     connect(ghostTimer, &QTimer::timeout, this, &Game::moveGhosts);
-    ghostTimer->start(800);
+    ghostTimer->start(300);
 
     exitOpened = maze->getKeys() == 0;
 }
@@ -124,6 +126,8 @@ void Game::rotatePacman(Direction newDirection)
 void Game::moveGhosts()
 {
     Pacman *pacman = nullptr;
+    // Create ghost array
+    std::vector<Ghost *> ghosts;
 
     // Find Pacman
     for (int i = 0; i < maze->getRows(); i++)
@@ -151,34 +155,51 @@ void Game::moveGhosts()
             if (element->getSymbol() == 'G')
             {
                 Ghost *ghost = dynamic_cast<Ghost *>(element);
-                MazeElement *previousElement = ghost->getCurrent();
-                int ghostRow = ghost->getRow();
-                int ghostCol = ghost->getCol();
-
-                // Replace current
-                ghost->chase(*pacman, *maze);
-                int newGhostRow = ghost->getRow();
-                int newGhostCol = ghost->getCol();
-
-                if (maze->isGhostPositionValid(newGhostRow, newGhostCol))
-                {
-                    MazeElement *current = maze->getElementAt(newGhostRow, newGhostCol);
-                    ghost->setCurrent(current);
-
-                    // Set previous element back to the maze
-                    if (previousElement != nullptr)
-                    {
-                        maze->setElementAt(i, j, previousElement);
-                    }
-                    else
-                    {
-                        maze->setElementAt(i, j, new Empty());
-                    }
-                    maze->setElementAt(newGhostRow, newGhostCol, ghost);
-                }
+                ghosts.push_back(ghost);
             }
         }
     }
+
+    for (int i = 0; i < ghosts.size(); i++)
+    {
+        MazeElement *previousElement = ghosts[i]->getCurrent();
+        int ghostRow = ghosts[i]->getRow();
+        int ghostCol = ghosts[i]->getCol();
+
+        // Replace current
+        ghosts[i]->chase(*pacman, *maze);
+        int newGhostRow = ghosts[i]->getRow();
+        int newGhostCol = ghosts[i]->getCol();
+
+        if (maze->isGhostPositionValid(newGhostRow, newGhostCol))
+        {
+            MazeElement *current = maze->getElementAt(newGhostRow, newGhostCol);
+            ghosts[i]->setCurrent(current);
+
+            // Set previous element back to the maze
+            if (previousElement != nullptr)
+            {
+                maze->setElementAt(ghostRow, ghostCol, previousElement);
+            }
+            else
+            {
+                maze->setElementAt(ghostRow, ghostCol, new Empty());
+            }
+
+            std::cout << "current symbol" << current->getSymbol() << std::endl;
+            if (current->getSymbol() == 'S')
+            {
+                qDebug() << "END OF GAME";
+                moveTimer->stop();
+                ghostTimer->stop();
+                QMessageBox::information(this, "Game Over", "gadzo");
+            }
+
+            maze->setElementAt(newGhostRow, newGhostCol, ghosts[i]);
+        }
+    }
+
+    update();
 }
 
 void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, int cellSize)
