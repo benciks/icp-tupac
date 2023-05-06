@@ -130,8 +130,6 @@ void MainWindow::startGame()
 
     connect(game, &Game::scoreChanged, this, &MainWindow::updateScoreLabel); // Connect the signal to the slot
     connect(game, &Game::gameOver, this, &MainWindow::gameOver);
-
-    game->paintMaze();
 }
 
 MainWindow::~MainWindow()

@@ -233,13 +233,13 @@ void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, i
     }
 }
 
-void Game::paintMaze()
+void Game::paintMaze(QPainter &painter)
 {
-    QPainter painter(this);
-    if (!painter.isActive())
-    {
-        painter.begin(this);
-    }
+    // QPainter painter(this);
+    // if (!painter.isActive())
+    //  {
+    //      painter.begin(this);
+    //  }
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
     painter.setPen(Qt::transparent);
 
@@ -271,7 +271,8 @@ void Game::paintMaze()
 void Game::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
-    paintMaze();
+    QPainter painter(this);
+    paintMaze(painter);
 }
 
 void Game::keyPressEvent(QKeyEvent *event)
