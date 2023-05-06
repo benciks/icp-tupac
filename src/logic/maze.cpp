@@ -305,15 +305,12 @@ void Ghost::chase(Pacman &pacman, const Maze &maze)
 
     // // Find the shortest path from the ghost to the pacman using A*
     std::vector<std::pair<int, int>> path = AStar(ghostRow, ghostCol, pacmanRow, pacmanCol, maze);
-    if (path.size() > 1)
+    if (path.size())
     {
         // Get the next position in the path
         std::pair<int, int> nextPosition = path[0];
         int nextRow = nextPosition.first;
         int nextCol = nextPosition.second;
-
-        std::cout << "Ghost: " << ghostRow << ", " << ghostCol << std::endl;
-        std::cout << "Next: " << nextRow << ", " << nextCol << std::endl;
 
         // Move the ghost in the next direction
         if (maze.isGhostPositionValid(nextRow, nextCol))

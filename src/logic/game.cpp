@@ -7,8 +7,6 @@
 #include <QKeyEvent>
 #include <QFocusEvent>
 #include <QMessageBox>
-#include <chrono>
-#include <ctime>
 
 #include <QTimer>
 
@@ -23,13 +21,13 @@ Game::Game(QWidget *parent) : QWidget(parent)
     setFocusPolicy(Qt::StrongFocus); // Set focus policy
     setFocus();                      // Set focus on the widget
 
+    ghostTimer = new QTimer(this);
+    connect(ghostTimer, &QTimer::timeout, this, &Game::moveGhosts);
+    ghostTimer->start(400);
+
     moveTimer = new QTimer(this);
     connect(moveTimer, &QTimer::timeout, this, &Game::movePacman);
     moveTimer->start(150);
-
-    ghostTimer = new QTimer(this);
-    connect(ghostTimer, &QTimer::timeout, this, &Game::moveGhosts);
-    ghostTimer->start(300);
 
     exitOpened = maze->getKeys() == 0;
 }
@@ -85,6 +83,14 @@ void Game::movePacman()
             }
         }
 
+        if (nextElement->getSymbol() == 'G')
+        {
+            qDebug() << "GAME OVER";
+            moveTimer->stop();
+            ghostTimer->stop();
+            QMessageBox::information(this, "Game Over", "gadzo");
+        }
+
         // Update maze
         maze->setElementAt(pacmanRow, pacmanCol, new Empty());
 
@@ -93,6 +99,7 @@ void Game::movePacman()
         {
             qDebug() << "END OF GAME";
             moveTimer->stop();
+            ghostTimer->stop();
             QMessageBox::information(this, "Game Over", "gadzo");
         }
         else
@@ -186,7 +193,7 @@ void Game::moveGhosts()
                 maze->setElementAt(ghostRow, ghostCol, new Empty());
             }
 
-            std::cout << "current symbol" << current->getSymbol() << std::endl;
+            // Check if ghost is going to reach pacman
             if (current->getSymbol() == 'S')
             {
                 qDebug() << "END OF GAME";
@@ -237,6 +244,10 @@ void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, i
 void Game::paintMaze()
 {
     QPainter painter(this);
+    if (!painter.isActive())
+    {
+        painter.begin(this);
+    }
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
     painter.setPen(Qt::transparent);
     // qDebug() << "paintMaze() called";

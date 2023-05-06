@@ -19,6 +19,7 @@ private:
     Maze *maze;
     QTimer *moveTimer;
     QTimer *ghostTimer;
+    QPainter *painter;
     bool exitOpened = false;
     int keysCollected = 0;
     int score = 0;
