@@ -20,6 +20,7 @@ private:
     QTimer *moveTimer;
     QTimer *ghostTimer;
     QPainter *painter;
+    QString replayFileName;
     bool exitOpened = false;
     int keysCollected = 0;
     int score = 0;
@@ -29,6 +30,7 @@ protected:
     void paintEvent(QPaintEvent *event) override;
     void paintElement(QPainter &painter, MazeElement *element, int x, int y, int cellSize);
     void keyPressEvent(QKeyEvent *event) override;
+    void saveGame();
     void endGame(bool victory = false);
 
 private slots:

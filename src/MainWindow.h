@@ -24,12 +24,15 @@ public:
 public slots:
     void startGame();
     void loadFile();
+    void loadReplay();
+    void replayGame(bool start);
 
 private:
     Ui::MainWindow *ui;
     QLabel *scoreLabel;
     int score = 0;
     QString fileName;
+    QString replayFile;
 
 private slots:
     void updateScoreLabel(int newScore);

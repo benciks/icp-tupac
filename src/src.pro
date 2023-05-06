@@ -14,12 +14,16 @@ SOURCES += \
     logic/game.cpp \
     logic/maze.cpp \
     logic/path.cpp \
+    logic/replay.cpp \
+    logic/replay_ui.cpp \
 
 HEADERS += \
     MainWindow.h \
     logic/game.h \
     logic/maze.h \
     logic/path.h \
+    logic/replay.h \
+    logic/replay_ui.h \
 
 FORMS += \
     MainWindow.ui

@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "logic/game.h"
+#include "logic/replay_ui.h"
 #include <QPainter>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -24,6 +25,69 @@ void MainWindow::loadFile()
         tr("Text Files (*.txt);;All Files (*)"));
 
     fileName = file;
+    startGame();
+}
+
+void MainWindow::loadReplay()
+{
+    QString file = QFileDialog::getOpenFileName(
+        this,
+        tr("Open File"),
+        QDir::homePath(),
+        tr("Text Files (*.txt);;All Files (*)"));
+
+    replayFile = file;
+    // Add logo to the top
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->setAlignment(Qt::AlignCenter);
+
+    QLabel *logoLabel = new QLabel();
+    QPixmap logoPixmap(":images/data/logo.png"); // Replace with the path to your logo file
+    logoLabel->setPixmap(logoPixmap.scaled(logoPixmap.width() / 4, logoPixmap.height() / 4, Qt::KeepAspectRatio));
+    logoLabel->setAlignment(Qt::AlignCenter);
+    layout->addWidget(logoLabel);
+
+    // Create a label for the score
+    QPushButton *startButton = new QPushButton("From start", this);
+    startButton->setStyleSheet("background-color: #FFCC00; color: black; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
+    QFont startFont = startButton->font();
+    startFont.setWeight(QFont::Medium);
+    startButton->setFont(startFont);
+    layout->addWidget(startButton);
+    connect(startButton, &QPushButton::clicked, this, [this]()
+            {
+    bool start = true;
+    replayGame(start); });
+    QPushButton *endButton = new QPushButton("From end", this);
+    endButton->setStyleSheet("background-color: #4A298C; color: white; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
+    QFont quitFont = endButton->font();
+    quitFont.setWeight(QFont::Medium);
+    endButton->setFont(quitFont);
+    layout->addWidget(endButton);
+    connect(startButton, &QPushButton::clicked, this, [this]()
+            {
+    bool start = true;
+    replayGame(start); });
+
+    QWidget *centralWidget = new QWidget();
+    centralWidget->setLayout(layout);
+    setCentralWidget(centralWidget);
+}
+
+void MainWindow::replayGame(bool start)
+{
+    ReplayUI *replayUI = new ReplayUI(this, replayFile);
+    replayUI->setGeometry(QRect(10, 10, 500, 500));
+
+    std::cout << "ReplayUI created" << std::endl;
+
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->addWidget(replayUI, 30);
+    layout->setContentsMargins(0, 0, 0, 0);
+
+    QWidget *centralWidget = new QWidget();
+    centralWidget->setLayout(layout);
+    setCentralWidget(centralWidget);
 }
 
 void MainWindow::gameOver(bool victory)
@@ -103,6 +167,14 @@ MainWindow::MainWindow(QWidget *parent)
     startButton->setFont(startFont);
     layout->addWidget(startButton);
     connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
+
+    QPushButton *replayButton = new QPushButton("Replay", this);
+    replayButton->setStyleSheet("background-color: #FFCC00; color: black; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
+    QFont replayFont = replayButton->font();
+    replayFont.setWeight(QFont::Medium);
+    replayButton->setFont(replayFont);
+    layout->addWidget(replayButton);
+    connect(replayButton, &QPushButton::clicked, this, &MainWindow::loadReplay);
 
     QPushButton *loadFileButton = new QPushButton("Load map from file", this);
     loadFileButton->setStyleSheet("background-color: #FF8300; color: black; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");

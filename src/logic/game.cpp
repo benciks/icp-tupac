@@ -1,5 +1,6 @@
 #include "game.h"
 #include "maze.h"
+
 #include <iostream>
 #include <QPainter>
 #include <QWidget>
@@ -10,7 +11,14 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QTimer>
+#include <QTime>
 #include <filesystem>
+#include <fstream>
+
+// 1. Dalsi button, pri stlaceni sa vybere ulozeny replay
+// 2. Parse grid, vykresli latest?, mal by to byt list, pocet krokov
+// 3. Sipkamy sa da prechadzat medzi krokmi
+// 4. Funkcia paintMaze, ktora vykresli maze podla toho, co je v liste
 
 Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
 {
@@ -45,6 +53,9 @@ Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
     moveTimer = new QTimer(this);
     connect(moveTimer, &QTimer::timeout, this, &Game::movePacman);
     moveTimer->start(150);
+
+    // Generate a random file name for the save file in replays folder
+    replayFileName = QDir::currentPath() + "/replays/" + QString::number(QDateTime::currentMSecsSinceEpoch()) + ".txt";
 
     exitOpened = maze->getKeys() == 0;
 }
@@ -120,6 +131,7 @@ void Game::movePacman()
         }
 
         update();
+        saveGame();
     }
 }
 
@@ -318,4 +330,32 @@ void Game::endGame(bool victory)
     moveTimer->stop();
     ghostTimer->stop();
     emit gameOver(victory);
+}
+
+void Game::saveGame()
+{
+    // Open the file
+    std::ofstream file(replayFileName.toStdString(), std::ios::app);
+    file << maze->getCols() << " " << maze->getRows() << std::endl;
+    // Iterate over the maze and save the elements
+    for (int i = 0; i < maze->getRows(); i++)
+    {
+        for (int j = 0; j < maze->getCols(); j++)
+        {
+            MazeElement *element = maze->getElementAt(i, j);
+            if (element->getSymbol() == ' ')
+            {
+                file << 'E';
+            }
+            else
+            {
+                file << element->getSymbol();
+            }
+        }
+        file << std::endl;
+    }
+
+    file << "---" << std::endl;
+    file.flush();
+    file.close();
 }
