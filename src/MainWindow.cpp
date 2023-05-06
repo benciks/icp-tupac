@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QFont>
 #include <QString>
+#include <QPushButton>
 
 void MainWindow::updateScoreLabel(int newScore)
 {
@@ -18,6 +19,41 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setContentsMargins(24, 24, 24, 24);
     setStyleSheet("background-color: #04080F;");
+
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->setAlignment(Qt::AlignCenter);
+
+    // Add logo to the top
+    QLabel *logoLabel = new QLabel();
+    QPixmap logoPixmap(":images/data/logo.png"); // Replace with the path to your logo file
+    logoLabel->setPixmap(logoPixmap.scaled(logoPixmap.width() / 4, logoPixmap.height() / 4, Qt::KeepAspectRatio));
+    logoLabel->setAlignment(Qt::AlignCenter);
+    layout->addWidget(logoLabel);
+
+    QPushButton *startButton = new QPushButton("Start", this);
+    startButton->setStyleSheet("background-color: #FFCC00; color: black; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
+    QFont startFont = startButton->font();
+    startFont.setWeight(QFont::Medium);
+    startButton->setFont(startFont);
+    layout->addWidget(startButton);
+    connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
+
+    QPushButton *quitButton = new QPushButton("Quit", this);
+    quitButton->setStyleSheet("background-color: #4A298C; color: white; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
+    QFont quitFont = quitButton->font();
+    quitFont.setWeight(QFont::Medium);
+    quitButton->setFont(quitFont);
+    layout->addWidget(quitButton);
+    connect(quitButton, &QPushButton::clicked, qApp, &QApplication::quit);
+
+    QWidget *centralWidget = new QWidget();
+    centralWidget->setLayout(layout);
+    setCentralWidget(centralWidget);
+}
+
+void MainWindow::startGame()
+{
+    std::cout << "Starting game" << std::endl;
 
     Game *game = new Game(this);
     game->setGeometry(QRect(10, 10, 500, 500));

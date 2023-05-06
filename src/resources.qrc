@@ -23,6 +23,7 @@
         <file>data/pinky_right.png</file>
         <file>data/pinky_up.png</file>
         <file>data/fruit.png</file>
+        <file>data/logo.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
