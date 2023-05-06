@@ -7,11 +7,23 @@
 #include <QFont>
 #include <QString>
 #include <QPushButton>
+#include <QFileDialog>
 
 void MainWindow::updateScoreLabel(int newScore)
 {
     score = newScore;
     scoreLabel->setText(QString("Score: %1").arg(newScore));
+}
+
+void MainWindow::loadFile()
+{
+    QString file = QFileDialog::getOpenFileName(
+        this,
+        tr("Open File"),
+        QDir::homePath(),
+        tr("Text Files (*.txt);;All Files (*)"));
+
+    fileName = file;
 }
 
 void MainWindow::gameOver(bool victory)
@@ -92,6 +104,14 @@ MainWindow::MainWindow(QWidget *parent)
     layout->addWidget(startButton);
     connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
 
+    QPushButton *loadFileButton = new QPushButton("Load map from file", this);
+    loadFileButton->setStyleSheet("background-color: #FF8300; color: black; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
+    QFont loadFont = loadFileButton->font();
+    loadFont.setWeight(QFont::Medium);
+    loadFileButton->setFont(loadFont);
+    layout->addWidget(loadFileButton);
+    connect(loadFileButton, &QPushButton::clicked, this, &MainWindow::loadFile);
+
     QPushButton *quitButton = new QPushButton("Quit", this);
     quitButton->setStyleSheet("background-color: #4A298C; color: white; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
     QFont quitFont = quitButton->font();
@@ -109,7 +129,7 @@ void MainWindow::startGame()
 {
     std::cout << "Starting game" << std::endl;
 
-    Game *game = new Game(this);
+    Game *game = new Game(this, fileName);
     game->setGeometry(QRect(10, 10, 500, 500));
 
     scoreLabel = new QLabel(this);

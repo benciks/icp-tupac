@@ -24,6 +24,7 @@
         <file>data/pinky_up.png</file>
         <file>data/fruit.png</file>
         <file>data/logo.png</file>
+        <file>data/maps/maze.txt</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

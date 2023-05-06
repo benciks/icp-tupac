@@ -10,7 +10,7 @@ class Game : public QWidget
 {
     Q_OBJECT
 public:
-    Game(QWidget *parent = nullptr);
+    Game(QWidget *parent = nullptr, QString fileName = "");
     void paintMaze(QPainter &painter);
     void rotatePacman(Direction direction);
     int getGhostCount() { return ghosts; };

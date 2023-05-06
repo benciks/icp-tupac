@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <iostream>
 #include <QLabel>
+#include <QString>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -22,11 +23,13 @@ public:
 
 public slots:
     void startGame();
+    void loadFile();
 
 private:
     Ui::MainWindow *ui;
     QLabel *scoreLabel;
     int score = 0;
+    QString fileName;
 
 private slots:
     void updateScoreLabel(int newScore);

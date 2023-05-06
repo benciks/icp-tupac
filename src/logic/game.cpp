@@ -7,16 +7,33 @@
 #include <QKeyEvent>
 #include <QFocusEvent>
 #include <QMessageBox>
-
+#include <QFileInfo>
+#include <QDir>
 #include <QTimer>
+#include <filesystem>
 
-Game::Game(QWidget *parent) : QWidget(parent)
+Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
 {
-#if __APPLE__
-    maze = new Maze("../../../logic/maze.txt");
-#else
-    maze = new Maze("../src/logic/maze.txt");
-#endif
+    if (fileName == "")
+    {
+        QString currentPath = QDir::currentPath() + "/";
+        QString defaultMazePath = currentPath + "src/data/maps/maze.txt";
+        QFileInfo mazeFileInfo(defaultMazePath);
+
+        if (mazeFileInfo.exists() && mazeFileInfo.isFile())
+        {
+            maze = new Maze(mazeFileInfo.absoluteFilePath().toStdString());
+        }
+        else
+        {
+            QMessageBox::critical(this, "Error", "<font color='red'>Couldn't locate default maze file\n" + mazeFileInfo.absoluteFilePath() + "</font>");
+            exit(1);
+        }
+    }
+    else
+    {
+        maze = new Maze(fileName.toStdString());
+    }
     // setFixedSize(maze->getCols() * 20, maze->getRows() * 20); // Set the fixed size for the widget
     setFocusPolicy(Qt::StrongFocus); // Set focus policy
     setFocus();                      // Set focus on the widget
