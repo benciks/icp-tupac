@@ -85,10 +85,7 @@ void Game::movePacman()
 
         if (nextElement->getSymbol() == 'G')
         {
-            qDebug() << "GAME OVER";
-            moveTimer->stop();
-            ghostTimer->stop();
-            QMessageBox::information(this, "Game Over", "gadzo");
+            endGame();
         }
 
         // Update maze
@@ -97,10 +94,8 @@ void Game::movePacman()
         // check if Pac-Man is on target and key is collected
         if (maze->getElementAt(pacman->getRow(), pacman->getCol())->getSymbol() == 'T' && exitOpened)
         {
-            qDebug() << "END OF GAME";
-            moveTimer->stop();
-            ghostTimer->stop();
-            QMessageBox::information(this, "Game Over", "gadzo");
+            // Victory boie
+            endGame(true);
         }
         else
         {
@@ -196,10 +191,7 @@ void Game::moveGhosts()
             // Check if ghost is going to reach pacman
             if (current->getSymbol() == 'S')
             {
-                qDebug() << "END OF GAME";
-                moveTimer->stop();
-                ghostTimer->stop();
-                QMessageBox::information(this, "Game Over", "gadzo");
+                endGame();
             }
 
             maze->setElementAt(newGhostRow, newGhostCol, ghosts[i]);
@@ -250,7 +242,6 @@ void Game::paintMaze()
     }
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
     painter.setPen(Qt::transparent);
-    // qDebug() << "paintMaze() called";
 
     // Set the background color
     painter.setBackground(QBrush(QColor(4, 8, 15, 255)));
@@ -302,6 +293,11 @@ void Game::keyPressEvent(QKeyEvent *event)
     default:
         QWidget::keyPressEvent(event);
     }
+}
 
-    // update(rect()); // Trigger a repaint after moving Pacman
+void Game::endGame(bool victory)
+{
+    moveTimer->stop();
+    ghostTimer->stop();
+    emit gameOver(victory);
 }

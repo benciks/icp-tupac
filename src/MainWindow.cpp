@@ -10,7 +10,61 @@
 
 void MainWindow::updateScoreLabel(int newScore)
 {
+    score = newScore;
     scoreLabel->setText(QString("Score: %1").arg(newScore));
+}
+
+void MainWindow::gameOver(bool victory)
+{
+    // Add logo to the top
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->setAlignment(Qt::AlignCenter);
+
+    QLabel *logoLabel = new QLabel();
+    QPixmap logoPixmap(":images/data/logo.png"); // Replace with the path to your logo file
+    logoLabel->setPixmap(logoPixmap.scaled(logoPixmap.width() / 4, logoPixmap.height() / 4, Qt::KeepAspectRatio));
+    logoLabel->setAlignment(Qt::AlignCenter);
+    layout->addWidget(logoLabel);
+
+    // Create a label for the score
+    QLabel *endLabel;
+    if (victory)
+    {
+        endLabel = new QLabel("You Win!", this);
+    }
+    else
+    {
+        endLabel = new QLabel("Game Over!", this);
+    }
+    endLabel->setAlignment(Qt::AlignCenter);
+    endLabel->setStyleSheet("color: white; font-size: 32px;");
+    layout->addWidget(endLabel);
+
+    // Create a label for the score
+    QLabel *scoreLabel = new QLabel("Final Score: " + QString::number(score), this);
+    scoreLabel->setAlignment(Qt::AlignCenter);
+    scoreLabel->setStyleSheet("color: white; font-size: 18px;");
+    layout->addWidget(scoreLabel);
+
+    QPushButton *startButton = new QPushButton("Restart", this);
+    startButton->setStyleSheet("background-color: #FFCC00; color: black; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
+    QFont startFont = startButton->font();
+    startFont.setWeight(QFont::Medium);
+    startButton->setFont(startFont);
+    layout->addWidget(startButton);
+    connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
+
+    QPushButton *quitButton = new QPushButton("Quit", this);
+    quitButton->setStyleSheet("background-color: #4A298C; color: white; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
+    QFont quitFont = quitButton->font();
+    quitFont.setWeight(QFont::Medium);
+    quitButton->setFont(quitFont);
+    layout->addWidget(quitButton);
+    connect(quitButton, &QPushButton::clicked, qApp, &QApplication::quit);
+
+    QWidget *centralWidget = new QWidget();
+    centralWidget->setLayout(layout);
+    setCentralWidget(centralWidget);
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -75,6 +129,7 @@ void MainWindow::startGame()
     setCentralWidget(centralWidget);
 
     connect(game, &Game::scoreChanged, this, &MainWindow::updateScoreLabel); // Connect the signal to the slot
+    connect(game, &Game::gameOver, this, &MainWindow::gameOver);
 
     game->paintMaze();
 }

@@ -26,8 +26,10 @@ public slots:
 private:
     Ui::MainWindow *ui;
     QLabel *scoreLabel;
+    int score = 0;
 
 private slots:
     void updateScoreLabel(int newScore);
+    void gameOver(bool victory);
 };
 #endif // MAINWINDOW_H

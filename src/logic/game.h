@@ -29,6 +29,7 @@ protected:
     void paintEvent(QPaintEvent *event) override;
     void paintElement(QPainter &painter, MazeElement *element, int x, int y, int cellSize);
     void keyPressEvent(QKeyEvent *event) override;
+    void endGame(bool victory = false);
 
 private slots:
     void movePacman();
@@ -36,6 +37,7 @@ private slots:
 
 signals:
     void scoreChanged(int newScore);
+    void gameOver(bool victory);
 };
 
 #endif // ICP_PACMAN_GAME_H
