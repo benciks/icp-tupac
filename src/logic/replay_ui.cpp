@@ -28,6 +28,7 @@ void ReplayUI::replayStep()
 
 void ReplayUI::paintEvent(QPaintEvent *event)
 {
+    Q_UNUSED(event);
     QPainter painter(this);
     paintMaze(painter);
 }

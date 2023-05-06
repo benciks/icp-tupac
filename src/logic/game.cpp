@@ -187,7 +187,7 @@ void Game::moveGhosts()
         }
     }
 
-    for (int i = 0; i < ghosts.size(); i++)
+    for (size_t i = 0; i < ghosts.size(); i++)
     {
         MazeElement *previousElement = ghosts[i]->getCurrent();
         int ghostRow = ghosts[i]->getRow();

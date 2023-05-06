@@ -169,7 +169,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
 
     QPushButton *replayButton = new QPushButton("Replay", this);
-    replayButton->setStyleSheet("background-color: #FFCC00; color: black; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
+    replayButton->setStyleSheet("background-color: #FF8300; color: black; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
     QFont replayFont = replayButton->font();
     replayFont.setWeight(QFont::Medium);
     replayButton->setFont(replayFont);
@@ -177,7 +177,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(replayButton, &QPushButton::clicked, this, &MainWindow::loadReplay);
 
     QPushButton *loadFileButton = new QPushButton("Load map from file", this);
-    loadFileButton->setStyleSheet("background-color: #FF8300; color: black; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
+    loadFileButton->setStyleSheet("background-color: #FF5733; color: black; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
     QFont loadFont = loadFileButton->font();
     loadFont.setWeight(QFont::Medium);
     loadFileButton->setFont(loadFont);

@@ -226,6 +226,8 @@ void Pacman::move(Direction &currentDirection, const Maze &maze, bool keyCollect
     case Direction::RIGHT:
         newCol++;
         break;
+    default:
+        break;
     }
 
     if (maze.isPositionValid(newRow, newCol, keyCollected))
@@ -253,6 +255,8 @@ void Pacman::move(Direction &currentDirection, const Maze &maze, bool keyCollect
         case Direction::RIGHT:
             newRow = row;
             newCol = col + 1;
+            break;
+        default:
             break;
         }
 
