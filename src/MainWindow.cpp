@@ -77,13 +77,19 @@ void MainWindow::replayGame(bool start)
 {
     ReplayUI *replayUI = new ReplayUI(this, replayFile, start);
     replayUI->setGeometry(QRect(10, 10, 500, 500));
-    //replayUI->setFocusPolicy(Qt::StrongFocus);
-    //replayUI->setFocus();
 
     std::cout << "ReplayUI created" << std::endl;
 
+    // Add a QLabel for displaying the legend
+    QLabel *legendLabel = new QLabel(this);
+    legendLabel->setText("Switch replay modes: Spacebar\n<In sequential>\nLeft arrow key: Go backwards\nRight arrow key: Go forwards");
+    legendLabel->setStyleSheet("color: #FFFFFF;");
+    legendLabel->setFont(QFont("Arial", 12));
+    legendLabel->setAlignment(Qt::AlignCenter);
+
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(replayUI, 30);
+    layout->addWidget(legendLabel); // Add the legend label to the layout
     layout->setContentsMargins(0, 0, 0, 0);
 
     QWidget *centralWidget = new QWidget();
