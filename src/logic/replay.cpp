@@ -4,6 +4,7 @@
 #include <sstream>
 
 Replay::Replay(std::string filename, bool start)
+    : start(start) // Initialize the start member variable
 {
     parseFile(filename);
     if (!start)
@@ -20,25 +21,52 @@ Replay::Replay(std::string filename, bool start)
     parseStep(steps[currentStep]);
 }
 
+
 // Get next step
 void Replay::nextMove()
 {
-    if (currentStep < maxStep)
+    if (this->start) // Normal mode
     {
-        currentStep++;
-        parseStep(steps[currentStep]);
+        if (currentStep < maxStep)
+        {
+            currentStep++;
+            parseStep(steps[currentStep]);
+        }
+    }
+    else // Reverse mode
+    {
+        if (currentStep > 0)
+        {
+            --currentStep; // Decrement the step in reverse mode
+            currentGrid = prevGrids[currentStep];
+            prevGrids.pop_back(); 
+        }
     }
 }
 
 // Get previous step
 void Replay::prevMove()
 {
-    if (currentStep > 0)
+    if (this->start) // Normal mode
     {
-        currentStep--;
-        parseStep(steps[currentStep]);
+        if (currentStep > 0)
+        {
+            currentStep--;
+            currentGrid = prevGrids[currentStep];
+            prevGrids.pop_back();   
+        }
+    }
+    else // Reverse mode
+    {
+        if (currentStep < maxStep)
+        {
+            currentStep++; // Increment the step in reverse mode
+            parseStep(steps[currentStep]);
+        }
     }
 }
+
+
 
 // Parse into vector of strings
 void Replay::parseFile(const std::string &filename)
@@ -71,6 +99,11 @@ void Replay::parseFile(const std::string &filename)
 // Parse into grid
 void Replay::parseStep(const std::string &step)
 {
+    if (currentStep != 0) // Add this condition to prevent pushing the first step into prevGrids
+    {
+        prevGrids.push_back(currentGrid);
+    }
+
     std::istringstream input(step);
 
     input >> cols >> rows;

@@ -1,15 +1,61 @@
 #include "replay_ui.h"
 #include <QPainter>
+#include <QKeyEvent>
+#include <QDebug>
 
 ReplayUI::ReplayUI(QWidget *parent, QString fileName, bool start) : QWidget(parent)
 {
-    setFocusPolicy(Qt::StrongFocus); // Set focus policy
+    //setFocusPolicy(Qt::StrongFocus); // Set focus policy
+    setFocusPolicy(Qt::ClickFocus);
     setFocus();                      // Set focus on the widget
 
     replay = new Replay(fileName.toStdString(), start);
     replayTimer = new QTimer(this);
     connect(replayTimer, SIGNAL(timeout()), this, SLOT(replayStep()));
     replayTimer->start(150);
+}
+
+void ReplayUI::switchMode()
+{
+    sequentialMode = !sequentialMode;
+    if (sequentialMode)
+    {
+        replayTimer->stop();
+    }
+    else
+    {
+        replayTimer->start(150);
+    }
+    setFocus(); // Add this line to set focus on the widget
+    qDebug() << "Switching mode"; 
+}
+
+void ReplayUI::keyPressEvent(QKeyEvent *event)
+{
+    qDebug() << "Key pressed:" << event->key();
+    if (event->key() == Qt::Key_Space)
+    {
+        switchMode();
+        return;
+    }
+
+    if (sequentialMode)
+    {
+        if (event->key() == Qt::Key_Right)
+        {
+            replay->nextMove();
+            update();
+        }
+        else if (event->key() == Qt::Key_Left)
+        {
+            replay->prevMove();
+            update();
+        }
+    }
+    else
+    {
+        QWidget::keyPressEvent(event);
+    }
 }
 
 void ReplayUI::replayStep()

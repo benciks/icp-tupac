@@ -37,17 +37,16 @@ void MainWindow::loadReplay()
         tr("Text Files (*.txt);;All Files (*)"));
 
     replayFile = file;
-    // Add logo to the top
+    
     QVBoxLayout *layout = new QVBoxLayout();
     layout->setAlignment(Qt::AlignCenter);
 
     QLabel *logoLabel = new QLabel();
-    QPixmap logoPixmap(":images/data/logo.png"); // Replace with the path to your logo file
+    QPixmap logoPixmap(":images/data/logo.png"); 
     logoLabel->setPixmap(logoPixmap.scaled(logoPixmap.width() / 4, logoPixmap.height() / 4, Qt::KeepAspectRatio));
     logoLabel->setAlignment(Qt::AlignCenter);
     layout->addWidget(logoLabel);
 
-    // Create a label for the score
     QPushButton *startButton = new QPushButton("From start", this);
     startButton->setStyleSheet("background-color: #FFCC00; color: black; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
     QFont startFont = startButton->font();
@@ -78,6 +77,8 @@ void MainWindow::replayGame(bool start)
 {
     ReplayUI *replayUI = new ReplayUI(this, replayFile, start);
     replayUI->setGeometry(QRect(10, 10, 500, 500));
+    //replayUI->setFocusPolicy(Qt::StrongFocus);
+    //replayUI->setFocus();
 
     std::cout << "ReplayUI created" << std::endl;
 
