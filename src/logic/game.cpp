@@ -15,11 +15,6 @@
 #include <filesystem>
 #include <fstream>
 
-// 1. Dalsi button, pri stlaceni sa vybere ulozeny replay
-// 2. Parse grid, vykresli latest?, mal by to byt list, pocet krokov
-// 3. Sipkamy sa da prechadzat medzi krokmi
-// 4. Funkcia paintMaze, ktora vykresli maze podla toho, co je v liste
-
 Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
 {
     if (fileName == "")
@@ -55,6 +50,7 @@ Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
     moveTimer->start(150);
 
     // Generate a random file name for the save file in replays folder
+    QDir().mkdir("replays");
     replayFileName = QDir::currentPath() + "/replays/" + QString::number(QDateTime::currentMSecsSinceEpoch()) + ".txt";
 
     exitOpened = maze->getKeys() == 0;

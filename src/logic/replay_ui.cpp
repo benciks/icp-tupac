@@ -1,21 +1,29 @@
 #include "replay_ui.h"
 #include <QPainter>
 
-ReplayUI::ReplayUI(QWidget *parent, QString fileName) : QWidget(parent)
+ReplayUI::ReplayUI(QWidget *parent, QString fileName, bool start) : QWidget(parent)
 {
     setFocusPolicy(Qt::StrongFocus); // Set focus policy
     setFocus();                      // Set focus on the widget
 
-    replay = new Replay(fileName.toStdString());
+    replay = new Replay(fileName.toStdString(), start);
     replayTimer = new QTimer(this);
     connect(replayTimer, SIGNAL(timeout()), this, SLOT(replayStep()));
-    replayTimer->start(1000);
+    replayTimer->start(150);
 }
 
 void ReplayUI::replayStep()
 {
-    replay->nextMove();
-    update();
+    if (start)
+    {
+        replay->nextMove();
+        update();
+    }
+    else
+    {
+        replay->prevMove();
+        update();
+    }
 }
 
 void ReplayUI::paintEvent(QPaintEvent *event)
@@ -48,9 +56,7 @@ void ReplayUI::paintMaze(QPainter &painter)
             int y = yOffset + i * cellSize;
             paintElement(painter, replay->getGrid()[i][j], x, y, cellSize);
         }
-        std::cout << std::endl;
     }
-    std::cout << std::endl;
 }
 
 void ReplayUI::paintElement(QPainter &painter, MazeElement *element, int x, int y, int cellSize)
@@ -59,34 +65,27 @@ void ReplayUI::paintElement(QPainter &painter, MazeElement *element, int x, int 
     switch (symbol)
     {
     case 'X':
-        std::cout << "X";
         painter.setBrush(QColor(33, 33, 255, 255));
         painter.drawRect(x, y, cellSize, cellSize);
         break;
     case 'G':
-        std::cout << "G";
         painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Ghost *>(element)->getPixmap());
         break;
     case 'S':
-        std::cout << "S";
         painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Pacman *>(element)->getPixmap());
         break;
     case 'T':
-        std::cout << "T";
         painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Target *>(element)->getPixmap());
         break;
     case 'K':
-        std::cout << "K";
         painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Key *>(element)->getPixmap());
         break;
     case ' ':
-        std::cout << " ";
         painter.setBrush(QColor(4, 8, 15, 255));
         painter.drawRect(x, y, cellSize, cellSize);
         break;
     case '.':
     default:
-        std::cout << ".";
         painter.drawPixmap(x, y, cellSize, cellSize, static_cast<Collectible *>(element)->getPixmap());
         break;
     }

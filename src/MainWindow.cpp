@@ -64,9 +64,9 @@ void MainWindow::loadReplay()
     quitFont.setWeight(QFont::Medium);
     endButton->setFont(quitFont);
     layout->addWidget(endButton);
-    connect(startButton, &QPushButton::clicked, this, [this]()
+    connect(endButton, &QPushButton::clicked, this, [this]()
             {
-    bool start = true;
+    bool start = false;
     replayGame(start); });
 
     QWidget *centralWidget = new QWidget();
@@ -76,7 +76,7 @@ void MainWindow::loadReplay()
 
 void MainWindow::replayGame(bool start)
 {
-    ReplayUI *replayUI = new ReplayUI(this, replayFile);
+    ReplayUI *replayUI = new ReplayUI(this, replayFile, start);
     replayUI->setGeometry(QRect(10, 10, 500, 500));
 
     std::cout << "ReplayUI created" << std::endl;

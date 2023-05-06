@@ -3,11 +3,19 @@
 #include <iostream>
 #include <sstream>
 
-Replay::Replay(std::string filename)
+Replay::Replay(std::string filename, bool start)
 {
     parseFile(filename);
-    currentStep = 0;
-    maxStep = steps.size() - 1;
+    if (!start)
+    {
+        currentStep = steps.size() - 1;
+        maxStep = 0;
+    }
+    else
+    {
+        currentStep = 0;
+        maxStep = steps.size() - 1;
+    }
 
     parseStep(steps[currentStep]);
 }

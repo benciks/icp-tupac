@@ -10,12 +10,13 @@ class ReplayUI : public QWidget
 {
     Q_OBJECT
 public:
-    ReplayUI(QWidget *parent = nullptr, QString fileName = "");
+    ReplayUI(QWidget *parent = nullptr, QString fileName = "", bool start = true);
     void paintMaze(QPainter &painter);
 
 private:
     Replay *replay;
     QTimer *replayTimer;
+    bool start;
 
 protected:
     void paintEvent(QPaintEvent *event) override;

@@ -7,7 +7,7 @@
 class Replay
 {
 public:
-    Replay(std::string filename);
+    Replay(std::string filename, bool start = true);
     void nextMove();
     void prevMove();
     std::vector<std::vector<MazeElement *>> getGrid() { return currentGrid; }
