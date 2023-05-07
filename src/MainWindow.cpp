@@ -56,10 +56,12 @@ void MainWindow::loadReplay()
 
     QDialog fileDialog(this);
     fileDialog.setWindowTitle(tr("Select a Replay File"));
-
+    //fileDialog.setStyleSheet("QDialog { background-color: orange; } QListWidget { background-color: orange; color: black; } QPushButton { background-color: white; color: black; } QDialogButtonBox { background-color: white; }");
+    fileDialog.setStyleSheet("QDialog { background-color: black; } QListWidget { background-color: black; color: white; } QPushButton { background-color: #4A298C; color: black; } QDialogButtonBox { background-color: black; }");
     QVBoxLayout *fileDialogLayout = new QVBoxLayout(&fileDialog);
 
     QLabel *label = new QLabel("Choose a file from the list below or browse:", &fileDialog);
+    label->setStyleSheet("QLabel { color: white; }");
     fileDialogLayout->addWidget(label);
 
     QListWidget *listWidget = new QListWidget(&fileDialog);
