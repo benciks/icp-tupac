@@ -24,10 +24,16 @@ void MainWindow::updateScoreLabel(int newScore)
 
 void MainWindow::loadFile()
 {
+    QString mapFolder;
+#ifdef __APPLE__
+    mapFolder = QCoreApplication::applicationDirPath() + "/../../../examples/maps";
+#else
+    mapFolder = QCoreApplication::applicationDirPath() + "/examples/maps";
+#endif
     QString file = QFileDialog::getOpenFileName(
         this,
         tr("Open File"),
-        QDir::currentPath(),
+        mapFolder,
         tr("Text Files (*.txt);;All Files (*)"));
 
     if (file.isEmpty())
@@ -149,8 +155,6 @@ void MainWindow::replayGame(bool start)
 {
     ReplayUI *replayUI = new ReplayUI(this, replayFile, start);
     replayUI->setGeometry(QRect(10, 10, 500, 500));
-
-    std::cout << "ReplayUI created" << std::endl;
 
     // Add a QLabel for displaying the legend
     QLabel *legendLabel = new QLabel(this);
@@ -285,8 +289,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::startGame()
 {
-    std::cout << "Starting game" << std::endl;
-
     Game *game = new Game(this, fileName);
     game->setGeometry(QRect(10, 10, 500, 500));
 

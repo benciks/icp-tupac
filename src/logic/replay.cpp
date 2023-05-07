@@ -96,7 +96,6 @@ void Replay::parseStep(const std::string &step)
     std::istringstream input(step);
 
     input >> cols >> rows;
-    std::cout << "Rows: " << rows << ", cols: " << cols << std::endl;
     currentGrid.resize(rows, std::vector<MazeElement *>(cols));
 
     int numGhosts = 0;

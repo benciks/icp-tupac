@@ -69,14 +69,6 @@ Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
 
 Game::~Game()
 {
-    // for (int i = 0; i < maze->getRows(); i++)
-    // {
-    //     for (int j = 0; j < maze->getCols(); j++)
-    //     {
-    //         MazeElement *element = maze->getElementAt(i, j);
-    //         delete element;
-    //     }
-    // }
     delete maze;
     delete moveTimer;
     delete ghostTimer;

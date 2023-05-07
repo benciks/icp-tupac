@@ -31,7 +31,6 @@ void Maze::loadFromFile(const std::string &filename)
     }
 
     input >> rows >> cols;
-    std::cout << "Rows: " << rows << ", cols: " << cols << std::endl;
     grid.resize(rows, std::vector<MazeElement *>(cols));
 
     int numGhosts = 0;

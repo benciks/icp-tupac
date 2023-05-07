@@ -38,7 +38,6 @@ void ReplayUI::switchMode()
 
 void ReplayUI::keyPressEvent(QKeyEvent *event)
 {
-    qDebug() << "Key pressed:" << event->key();
     if (event->key() == Qt::Key_Space)
     {
         switchMode();
@@ -47,7 +46,6 @@ void ReplayUI::keyPressEvent(QKeyEvent *event)
 
     if (event->key() == Qt::Key_Escape)
     {
-        std::cout << "Escape pressed" << std::endl;
         emit replayFinished();
         return;
     }
