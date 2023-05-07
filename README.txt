@@ -15,6 +15,7 @@ What was implemented:
 Extension (Interactive elements):
 - Collectible - fruits that pacman eats
 - Score
+- Key count
 
 What wasn't implemented:
 - Movement of pacman using mouse click
