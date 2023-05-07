@@ -9,6 +9,10 @@
 #include <QString>
 #include <QPushButton>
 #include <QFileDialog>
+#include <QDir>
+#include <QListWidget>
+#include <QDialog>
+#include <QDialogButtonBox>
 
 void MainWindow::updateScoreLabel(int newScore)
 {
@@ -47,21 +51,63 @@ void MainWindow::loadReplay()
     replayFolder = QCoreApplication::applicationDirPath() + "/replays";
 #endif
 
-    QString file = QFileDialog::getOpenFileName(
-        this,
-        tr("Open File"),
-        replayFolder,
-        tr("Text Files (*.txt);;All Files (*)"));
+    QDir replayDir(replayFolder);
+    QStringList fileList = replayDir.entryList(QDir::Files | QDir::NoDotAndDotDot);
 
-    if (file.isEmpty())
+    QDialog fileDialog(this);
+    fileDialog.setWindowTitle(tr("Select a Replay File"));
+
+    QVBoxLayout *fileDialogLayout = new QVBoxLayout(&fileDialog);
+
+    QLabel *label = new QLabel("Choose a file from the list below or browse:", &fileDialog);
+    fileDialogLayout->addWidget(label);
+
+    QListWidget *listWidget = new QListWidget(&fileDialog);
+    listWidget->addItems(fileList);
+    fileDialogLayout->addWidget(listWidget);
+
+    QPushButton *browseButton = new QPushButton("Browse", &fileDialog);
+    fileDialogLayout->addWidget(browseButton);
+
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &fileDialog);
+    fileDialogLayout->addWidget(buttonBox);
+
+    connect(buttonBox, &QDialogButtonBox::accepted, &fileDialog, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, &fileDialog, &QDialog::reject);
+    connect(browseButton, &QPushButton::clicked, [&]()
     {
-        QMessageBox messageBox(QMessageBox::Warning, tr("Error"), tr("<font color='red'>No file selected. Please select a file.</font>"), QMessageBox::Ok, this);
-        messageBox.setTextFormat(Qt::RichText);
-        messageBox.exec();
+        QString file = QFileDialog::getOpenFileName(
+            &fileDialog,
+            tr("Open File"),
+            QDir::currentPath(),
+            tr("Text Files (*.txt);;All Files (*)"));
+
+        if (!file.isEmpty())
+        {
+            listWidget->clear();
+            listWidget->addItem(file);
+            listWidget->setCurrentRow(0);
+        }
+    });
+
+    if (fileDialog.exec() == QDialog::Accepted)
+    {
+        QString fileName = listWidget->currentItem()->text();
+        QString filePath = replayDir.exists(fileName) ? replayDir.filePath(fileName) : fileName;
+        if (filePath.isEmpty())
+        {
+            QMessageBox messageBox(QMessageBox::Warning, tr("Error"), tr("<font color='red'>No file selected. Please select a file.</font>"), QMessageBox::Ok, this);
+            messageBox.setTextFormat(Qt::RichText);
+            messageBox.exec();
+            return;
+        }
+
+        replayFile = filePath;
+    }
+    else
+    {
         return;
     }
-
-    replayFile = file;
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->setAlignment(Qt::AlignCenter);
