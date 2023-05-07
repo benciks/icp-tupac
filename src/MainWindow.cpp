@@ -23,7 +23,7 @@ void MainWindow::loadFile()
     QString file = QFileDialog::getOpenFileName(
         this,
         tr("Open File"),
-        QDir::homePath(),
+        QDir::currentPath(),
         tr("Text Files (*.txt);;All Files (*)"));
 
     if (file.isEmpty())
@@ -43,7 +43,7 @@ void MainWindow::loadReplay()
     QString file = QFileDialog::getOpenFileName(
         this,
         tr("Open File"),
-        QDir::homePath(),
+        QCoreApplication::applicationDirPath() + "/replays",
         tr("Text Files (*.txt);;All Files (*)"));
 
     if (file.isEmpty())

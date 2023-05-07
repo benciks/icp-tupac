@@ -12,6 +12,7 @@
 #include <QDir>
 #include <QTimer>
 #include <QTime>
+#include <QCoreApplication>
 #include <filesystem>
 #include <fstream>
 
@@ -19,8 +20,7 @@ Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
 {
     if (fileName == "")
     {
-        QString currentPath = QDir::currentPath() + "/";
-        QString defaultMazePath = currentPath + "src/data/maps/maze.txt";
+        QString defaultMazePath = QCoreApplication::applicationDirPath() + "/src/data/maps/maze.txt";
         QFileInfo mazeFileInfo(defaultMazePath);
 
         if (mazeFileInfo.exists() && mazeFileInfo.isFile())
