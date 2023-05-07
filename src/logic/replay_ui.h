@@ -29,7 +29,10 @@ protected:
 private slots:
     void replayStep();
 
-private: 
+signals:
+    void replayFinished();
+
+private:
     bool sequentialMode = false;
 };
 

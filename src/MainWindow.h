@@ -25,6 +25,7 @@ public slots:
     void startGame();
     void loadFile();
     void loadReplay();
+    void loadMenu();
     void replayGame(bool start);
 
 private:

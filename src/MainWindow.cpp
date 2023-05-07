@@ -37,12 +37,12 @@ void MainWindow::loadReplay()
         tr("Text Files (*.txt);;All Files (*)"));
 
     replayFile = file;
-    
+
     QVBoxLayout *layout = new QVBoxLayout();
     layout->setAlignment(Qt::AlignCenter);
 
     QLabel *logoLabel = new QLabel();
-    QPixmap logoPixmap(":images/data/logo.png"); 
+    QPixmap logoPixmap(":images/data/logo.png");
     logoLabel->setPixmap(logoPixmap.scaled(logoPixmap.width() / 4, logoPixmap.height() / 4, Qt::KeepAspectRatio));
     logoLabel->setAlignment(Qt::AlignCenter);
     layout->addWidget(logoLabel);
@@ -95,6 +95,8 @@ void MainWindow::replayGame(bool start)
     QWidget *centralWidget = new QWidget();
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
+
+    connect(replayUI, &ReplayUI::replayFinished, this, &MainWindow::loadMenu);
 }
 
 void MainWindow::gameOver(bool victory)
@@ -137,26 +139,21 @@ void MainWindow::gameOver(bool victory)
     layout->addWidget(startButton);
     connect(startButton, &QPushButton::clicked, this, &MainWindow::startGame);
 
-    QPushButton *quitButton = new QPushButton("Quit", this);
+    QPushButton *quitButton = new QPushButton("Go to main menu", this);
     quitButton->setStyleSheet("background-color: #4A298C; color: white; font-size: 18px; padding: 6px 12px; border-radius: 16px; min-width: 200px;");
     QFont quitFont = quitButton->font();
     quitFont.setWeight(QFont::Medium);
     quitButton->setFont(quitFont);
     layout->addWidget(quitButton);
-    connect(quitButton, &QPushButton::clicked, qApp, &QApplication::quit);
+    connect(quitButton, &QPushButton::clicked, this, &MainWindow::loadMenu);
 
     QWidget *centralWidget = new QWidget();
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
 }
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow)
+void MainWindow::loadMenu()
 {
-    ui->setupUi(this);
-    setContentsMargins(24, 24, 24, 24);
-    setStyleSheet("background-color: #04080F;");
-
     QVBoxLayout *layout = new QVBoxLayout();
     layout->setAlignment(Qt::AlignCenter);
 
@@ -202,6 +199,16 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *centralWidget = new QWidget();
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
+}
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    setContentsMargins(24, 24, 24, 24);
+    setStyleSheet("background-color: #04080F;");
+
+    loadMenu();
 }
 
 void MainWindow::startGame()

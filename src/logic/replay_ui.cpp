@@ -45,6 +45,13 @@ void ReplayUI::keyPressEvent(QKeyEvent *event)
         return;
     }
 
+    if (event->key() == Qt::Key_Escape)
+    {
+        std::cout << "Escape pressed" << std::endl;
+        emit replayFinished();
+        return;
+    }
+
     if (sequentialMode)
     {
         if (event->key() == Qt::Key_Right)
