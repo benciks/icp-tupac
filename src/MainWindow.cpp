@@ -69,7 +69,6 @@ void MainWindow::loadReplay()
 
     QDialog fileDialog(this);
     fileDialog.setWindowTitle(tr("Select a Replay File"));
-    // fileDialog.setStyleSheet("QDialog { background-color: orange; } QListWidget { background-color: orange; color: black; } QPushButton { background-color: white; color: black; } QDialogButtonBox { background-color: white; }");
     fileDialog.setStyleSheet("QDialog { background-color: black; } QListWidget { background-color: black; color: white; } QPushButton { background-color: #4A298C; color: black; } QDialogButtonBox { background-color: black; }");
     QVBoxLayout *fileDialogLayout = new QVBoxLayout(&fileDialog);
 
@@ -172,7 +171,7 @@ void MainWindow::replayGame(bool start)
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(replayUI, 30);
-    layout->addWidget(legendLabel); // Add the legend label to the layout
+    layout->addWidget(legendLabel);
     layout->setContentsMargins(0, 0, 0, 0);
 
     QWidget *centralWidget = new QWidget();
@@ -189,7 +188,7 @@ void MainWindow::gameOver(bool victory)
     layout->setAlignment(Qt::AlignCenter);
 
     QLabel *logoLabel = new QLabel();
-    QPixmap logoPixmap(":images/data/logo.png"); // Replace with the path to your logo file
+    QPixmap logoPixmap(":images/data/logo.png");
     logoLabel->setPixmap(logoPixmap.scaled(logoPixmap.width() / 4, logoPixmap.height() / 4, Qt::KeepAspectRatio));
     logoLabel->setAlignment(Qt::AlignCenter);
     layout->addWidget(logoLabel);
@@ -242,7 +241,7 @@ void MainWindow::loadMenu()
 
     // Add logo to the top
     QLabel *logoLabel = new QLabel();
-    QPixmap logoPixmap(":images/data/logo.png"); // Replace with the path to your logo file
+    QPixmap logoPixmap(":images/data/logo.png");
     logoLabel->setPixmap(logoPixmap.scaled(logoPixmap.width() / 4, logoPixmap.height() / 4, Qt::KeepAspectRatio));
     logoLabel->setAlignment(Qt::AlignCenter);
     layout->addWidget(logoLabel);

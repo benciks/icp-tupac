@@ -48,9 +48,8 @@ Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
     {
         maze = new Maze(fileName.toStdString());
     }
-    // setFixedSize(maze->getCols() * 20, maze->getRows() * 20); // Set the fixed size for the widget
-    setFocusPolicy(Qt::StrongFocus); // Set focus policy
-    setFocus();                      // Set focus on the widget
+    setFocusPolicy(Qt::StrongFocus);
+    setFocus();
 
     ghostTimer = new QTimer(this);
     connect(ghostTimer, &QTimer::timeout, this, &Game::moveGhosts);
@@ -285,11 +284,6 @@ void Game::paintElement(QPainter &painter, MazeElement *element, int x, int y, i
 
 void Game::paintMaze(QPainter &painter)
 {
-    // QPainter painter(this);
-    // if (!painter.isActive())
-    //  {
-    //      painter.begin(this);
-    //  }
     painter.setRenderHint(QPainter::SmoothPixmapTransform);
     painter.setPen(Qt::transparent);
 

@@ -97,6 +97,10 @@ public:
      */
     ~Collectible() {}
 
+    /**
+     * @brief Returns the symbol representing a collectible.
+     * @return The character symbol.
+     */
     char getSymbol() override;
     QPixmap getPixmap() const { return QPixmap(":/images/data/fruit.png"); }
 };
@@ -112,6 +116,11 @@ public:
      * @brief Destructor for the Key class.
      */
     ~Key() {}
+
+    /**
+     * @brief Returns the symbol representing a key in the maze.
+     * @return The character symbol.
+     */
     char getSymbol() override;
     QPixmap getPixmap() const { return QPixmap(":/images/data/key.png"); }
 };
@@ -144,10 +153,10 @@ class Pacman : public MazeElement
 public:
     /**
      * @brief Constructor for the Pacman class.
-     * @param row Initial row position.
-     * @param col Initial column position.
-     * @param currentDirection Initial direction.
-     * @param currentSprite Initial sprite.
+     * @param row Row position in maze.
+     * @param col Column position in maze.
+     * @param currentDirection Current direction of pacman.
+     * @param currentSprite Current applied sprite to pacman.
      */
     Pacman(int row, int col) : row(row), col(col), currentDirection(Direction::RIGHT), currentSprite(QPixmap(":/images/data/pacman_right.png")) {} // Initialize currentDirection
 
@@ -157,7 +166,7 @@ public:
     ~Pacman() {}
 
     /**
-     * @brief Returns the symbol representing the Pacman character.
+     * @brief Returns the symbol representing the Pacman.
      * @return The character symbol.
      */
     char getSymbol() override;
@@ -166,7 +175,7 @@ public:
      * @brief Moves the Pacman character.
      * @param currentDirection The current direction of Pacman.
      * @param maze The maze.
-     * @param keyCollected A boolean indicating whether a key has been collected.
+     * @param keyCollected A boolean indicating if a key was collected - used for target unlock.
      */
     void move(Direction &currentDirection, const Maze &maze, bool keyCollected);
 
@@ -183,7 +192,7 @@ public:
     int getCol() const { return col; }
 
     /**
-     * @brief Gets the QPixmap of Pacman.
+     * @brief Gets the QPixmap of Pacman (sprite).
      * @return The QPixmap.
      */
     QPixmap getPixmap() const { return currentSprite; }
@@ -219,7 +228,7 @@ public:
     void setCurrentDirection(Direction newDirection) { currentDirection = newDirection; }
 
     /**
-     * @brief Sets the QPixmap of Pacman according to the new direction.
+     * @brief Sets the QPixmap of Pacman (sprite) according to the new direction.
      * @param newDirection The new direction.
      */
     void setPixmap(Direction newDirection);
@@ -239,23 +248,23 @@ class Ghost : public MazeElement
 {
 public:
     /**
-     * @brief Construct a new Ghost object with the given pixmap, row, and column.
-     * @param pixmap The image representing the ghost.
-     * @param row The row of the ghost's initial position.
-     * @param col The column of the ghost's initial position.
+     * @brief Constructor for the Ghost class.
+     * @param pixmap The sprite representing the ghost.
+     * @param row Row of the ghost's position.
+     * @param col Column of the ghost's position.
      */
     Ghost(const QPixmap &pixmap, int row, int col) : pixmap(pixmap), row(row), col(col) {}
     ~Ghost() {}
     char getSymbol() override;
 
     /**
-     * @brief Get the ghost's image.
+     * @brief Get the ghost's sprite.
      * @return The QPixmap representing the ghost.
      */
     const QPixmap &getPixmap() const { return pixmap; }
 
     /**
-     * @brief Make the ghost chase Pac-Man.
+     * @brief Makes the ghost chase Pac-Man.
      * @param pacman The Pac-Man object to chase.
      * @param maze The maze object where the game is being played.
      */
@@ -272,8 +281,6 @@ public:
      * @return The column position of the ghost.
      */
     int getCol() const { return col; }
-
-    // Setter functions
 
     /**
      * @brief Set the ghost's row position.
@@ -299,24 +306,11 @@ public:
      */
     void setCurrent(MazeElement *newCurrent) { current = newCurrent; }
 
-    /**
-     * @brief Set the current direction the ghost is moving in.
-     * @param newDirection The new direction.
-     */
-    void setCurrentDirection(Direction newDirection) { currentDirection = newDirection; }
-
-    /**
-     * @brief Get the current direction the ghost is moving in.
-     * @return The current direction.
-     */
-    Direction getCurrentDirection() const { return currentDirection; }
-
 private:
     QPixmap pixmap;
     int row;
     int col;
     MazeElement *current = nullptr;
-    Direction currentDirection = Direction::NONE;
 };
 
 /**
@@ -356,7 +350,7 @@ public:
     int getKeys() const;
 
     /**
-     * @brief Returns the MazeElement at the specified position in maze.
+     * @brief Returns the MazeElement at the (row, col) position in maze.
      * @param row The row index.
      * @param col The column index.
      * @return A pointer to the MazeElement.
@@ -364,18 +358,18 @@ public:
     MazeElement *getElementAt(int row, int col) const;
 
     /**
-     * @brief Sets the MazeElement at the specified position.
+     * @brief Sets the MazeElement at the (row, col) position.
      * @param row The row index.
      * @param col The column index.
-     * @param element A pointer to the MazeElement to set.
+     * @param element A pointer to the MazeElement.
      */
     void setElementAt(int row, int col, MazeElement *element);
 
     /**
-     * @brief Checks if the specified position is valid for Pacman.
+     * @brief Checks if the (row, col) position is valid for Pacman.
      * @param row The row index.
      * @param col The column index.
-     * @param keyCollected Whether the key is collected or not.
+     * @param keyCollected Bool that checks if key was collected.
      * @return True if the position is valid, false otherwise.
      */
     bool isPositionValid(int row, int col, bool keyCollected) const;

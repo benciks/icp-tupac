@@ -11,7 +11,6 @@
 #include <sstream>
 
 Replay::Replay(std::string filename, bool start)
-    : start(start) // Initialize the start member variable
 {
     parseFile(filename);
     if (!start)
@@ -129,16 +128,16 @@ void Replay::parseStep(const std::string &step)
                     switch (numGhosts)
                     {
                     case 0:
-                        pixmap = QPixmap(":/images/data/blinky_right.png");
+                        pixmap = QPixmap(":/images/data/blink.png");
                         break;
                     case 1:
-                        pixmap = QPixmap(":/images/data/pinky_right.png");
+                        pixmap = QPixmap(":/images/data/pinky.png");
                         break;
                     case 2:
-                        pixmap = QPixmap(":/images/data/inky_right.png");
+                        pixmap = QPixmap(":/images/data/inky.png");
                         break;
                     case 3:
-                        pixmap = QPixmap(":/images/data/clyde_right.png");
+                        pixmap = QPixmap(":/images/data/clyde.png");
                         break;
                     }
                     currentGrid[i][j] = new Ghost(pixmap, i, j);
@@ -146,7 +145,7 @@ void Replay::parseStep(const std::string &step)
                 }
                 break;
             case 'S':
-                currentGrid[i][j] = new Pacman(i, j); // Set the initial position
+                currentGrid[i][j] = new Pacman(i, j);
                 break;
             case 'X':
                 currentGrid[i][j] = new Wall();

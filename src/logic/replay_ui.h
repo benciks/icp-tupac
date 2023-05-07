@@ -52,7 +52,6 @@ private:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
-    void paintMaze(QPainter &painter, std::vector<std::vector<MazeElement *>> grid, int cellSize);
     void paintElement(QPainter &painter, MazeElement *element, int x, int y, int cellSize);
     void keyPressEvent(QKeyEvent *event) override;
 

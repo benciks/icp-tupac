@@ -14,15 +14,15 @@
 
 /**
  * @class Replay
- * @brief Provides functionality to replay a saved game.
+ * @brief Implements replay(logging) functionality for the pacman game.
  */
 class Replay
 {
 public:
     /**
      * @brief Constructor for the Replay class.
-     * @param filename The name of the file containing the saved game.
-     * @param start A boolean indicating whether to start at the beginning or end of the saved game.
+     * @param filename The name of the file containing the replay log.
+     * @param start Boolean that indicates if we want to replay from beginning or from end.
      */
     Replay(std::string filename, bool start = true);
 
@@ -32,12 +32,12 @@ public:
     ~Replay();
 
     /**
-     * @brief Moves to the next step in the saved game.
+     * @brief Moves to the next step in the replay.
      */
     void nextMove();
 
     /**
-     * @brief Moves to the previous step in the saved game.
+     * @brief Moves to the previous step in the replay.
      */
     void prevMove();
 
@@ -71,7 +71,6 @@ public:
 private:
     int rows;
     int cols;
-    bool start;
     size_t currentStep;
     size_t maxStep;
     std::vector<std::string> steps;

@@ -12,7 +12,6 @@
 
 ReplayUI::ReplayUI(QWidget *parent, QString fileName, bool start) : QWidget(parent), start(start)
 {
-    // setFocusPolicy(Qt::StrongFocus); // Set focus policy
     setFocusPolicy(Qt::ClickFocus);
     setFocus(); // Set focus on the widget
 

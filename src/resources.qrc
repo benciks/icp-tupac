@@ -6,22 +6,10 @@
         <file>data/pacman_left.png</file>
         <file>data/pacman_right.png</file>
         <file>data/pacman_up.png</file>
-        <file>data/blinky_down.png</file>
-        <file>data/blinky_left.png</file>
-        <file>data/blinky_right.png</file>
-        <file>data/blinky_up.png</file>
-        <file>data/clyde_down.png</file>
-        <file>data/clyde_left.png</file>
-        <file>data/clyde_right.png</file>
-        <file>data/clyde_up.png</file>
-        <file>data/inky_down.png</file>
-        <file>data/inky_left.png</file>
-        <file>data/inky_right.png</file>
-        <file>data/inky_up.png</file>
-        <file>data/pinky_down.png</file>
-        <file>data/pinky_left.png</file>
-        <file>data/pinky_right.png</file>
-        <file>data/pinky_up.png</file>
+        <file>data/blinky.png</file>
+        <file>data/clyde.png</file>
+        <file>data/inky.png</file>
+        <file>data/pinky.png</file>
         <file>data/fruit.png</file>
         <file>data/logo.png</file>
     </qresource>

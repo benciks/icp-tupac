@@ -77,16 +77,16 @@ void Maze::loadFromFile(const std::string &filename)
                     switch (numGhosts)
                     {
                     case 0:
-                        pixmap = QPixmap(":/images/data/blinky_right.png");
+                        pixmap = QPixmap(":/images/data/blinky.png");
                         break;
                     case 1:
-                        pixmap = QPixmap(":/images/data/pinky_right.png");
+                        pixmap = QPixmap(":/images/data/pinky.png");
                         break;
                     case 2:
-                        pixmap = QPixmap(":/images/data/inky_right.png");
+                        pixmap = QPixmap(":/images/data/inky.png");
                         break;
                     case 3:
-                        pixmap = QPixmap(":/images/data/clyde_right.png");
+                        pixmap = QPixmap(":/images/data/clyde.png");
                         break;
                     }
                     grid[i][j] = new Ghost(pixmap, i, j);
@@ -172,36 +172,36 @@ void Maze::setElementAt(int row, int col, MazeElement *element)
 
 bool Maze::isPositionValid(int row, int col, bool keyCollected) const
 {
-    // Check if the position is within the maze boundaries
+    // Check if the position is in the maze
     if (row < 0 || row >= rows || col < 0 || col >= cols)
     {
         return false;
     }
 
-    // Check if the position is not occupied by a target when the key is not collected
+    // Check if the position is taken by a target when the key is not collected
     if (!keyCollected && dynamic_cast<Target *>(grid[row][col]))
     {
         return false;
     }
-    // Check if the position is not occupied by a wall
+    // Check if the position is not taken by a wall
     return !(dynamic_cast<Wall *>(grid[row][col]));
 }
 
 bool Maze::isGhostPositionValid(int row, int col) const
 {
-    // Check if the position is within the maze boundaries
+    // Check if the position is in the maze
     if (row < 0 || row >= rows || col < 0 || col >= cols)
     {
         return false;
     }
 
-    // Check if the position is not occupied by a ghost
+    // Check if the position is not taken by a ghost
     if (dynamic_cast<Ghost *>(grid[row][col]))
     {
         return false;
     }
 
-    // Check if the position is not occupied by a wall
+    // Check if the position is not taken by a wall
     return !(dynamic_cast<Wall *>(grid[row][col]));
 }
 
