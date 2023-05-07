@@ -35,41 +35,20 @@ Replay::~Replay()
 // Get next step
 void Replay::nextMove()
 {
-    if (start) // Normal mode
+    if (currentStep < maxStep)
     {
-        if (currentStep < maxStep)
-        {
-            currentStep++;
-            parseStep(steps[currentStep]);
-        }
-    }
-    else // Reverse mode
-    {
-        if (currentStep < maxStep)
-        {
-            currentStep++;
-            parseStep(steps[currentStep]);
-        }
+        currentStep++;
+        parseStep(steps[currentStep]);
     }
 }
+
 // Get previous step
 void Replay::prevMove()
 {
-    if (start) // Normal mode
+    if (currentStep > 0)
     {
-        if (currentStep > 0)
-        {
-            currentStep--;
-            parseStep(steps[currentStep]);
-        }
-    }
-    else // Reverse mode
-    {
-        if (currentStep > 0)
-        {
-            --currentStep;
-            parseStep(steps[currentStep]);
-        }
+        --currentStep;
+        parseStep(steps[currentStep]);
     }
 }
 

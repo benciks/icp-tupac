@@ -16,6 +16,8 @@ void MainWindow::updateScoreLabel(int newScore)
     scoreLabel->setText(QString("Score: %1").arg(newScore));
 }
 
+#include <QMessageBox>
+
 void MainWindow::loadFile()
 {
     QString file = QFileDialog::getOpenFileName(
@@ -23,6 +25,14 @@ void MainWindow::loadFile()
         tr("Open File"),
         QDir::homePath(),
         tr("Text Files (*.txt);;All Files (*)"));
+
+    if (file.isEmpty())
+    {
+        QMessageBox messageBox(QMessageBox::Warning, tr("Error"), tr("<font color='red'>No file selected. Please select a file.</font>"), QMessageBox::Ok, this);
+        messageBox.setTextFormat(Qt::RichText);
+        messageBox.exec();
+        return;
+    }
 
     fileName = file;
     startGame();
@@ -35,6 +45,14 @@ void MainWindow::loadReplay()
         tr("Open File"),
         QDir::homePath(),
         tr("Text Files (*.txt);;All Files (*)"));
+
+    if (file.isEmpty())
+    {
+        QMessageBox messageBox(QMessageBox::Warning, tr("Error"), tr("<font color='red'>No file selected. Please select a file.</font>"), QMessageBox::Ok, this);
+        messageBox.setTextFormat(Qt::RichText);
+        messageBox.exec();
+        return;
+    }
 
     replayFile = file;
 
@@ -82,7 +100,7 @@ void MainWindow::replayGame(bool start)
 
     // Add a QLabel for displaying the legend
     QLabel *legendLabel = new QLabel(this);
-    legendLabel->setText("Switch replay modes: Spacebar\n<In sequential>\nLeft arrow key: Go backwards\nRight arrow key: Go forwards");
+    legendLabel->setText("Switch replay modes: Spacebar\n<In sequential>\nLeft arrow key: Go backwards\nRight arrow key: Go forwards\nEsc: quit replay mode");
     legendLabel->setStyleSheet("color: #FFFFFF;");
     legendLabel->setFont(QFont("Arial", 12));
     legendLabel->setAlignment(Qt::AlignCenter);
