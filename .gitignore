@@ -5,3 +5,4 @@ pacman.app
 pacman
 pacman.exe
 examples/.DS_Store
+.vscode/
