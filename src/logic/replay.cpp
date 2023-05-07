@@ -48,7 +48,7 @@ Replay::~Replay()
 // Get next step
 void Replay::nextMove()
 {
-    if (this->start) // Normal mode
+    if (start) // Normal mode
     {
         if (currentStep < maxStep)
         {
@@ -62,7 +62,7 @@ void Replay::nextMove()
         {
             --currentStep; // Decrement the step in reverse mode
             currentGrid = prevGrids[currentStep];
-            prevGrids.pop_back(); 
+            prevGrids.pop_back();
         }
     }
 }
@@ -70,13 +70,13 @@ void Replay::nextMove()
 // Get previous step
 void Replay::prevMove()
 {
-    if (this->start) // Normal mode
+    if (start) // Normal mode
     {
         if (currentStep > 0)
         {
             currentStep--;
             currentGrid = prevGrids[currentStep];
-            prevGrids.pop_back();   
+            prevGrids.pop_back();
         }
     }
     else // Reverse mode
@@ -88,8 +88,6 @@ void Replay::prevMove()
         }
     }
 }
-
-
 
 // Parse into vector of strings
 void Replay::parseFile(const std::string &filename)
@@ -123,7 +121,7 @@ void Replay::parseFile(const std::string &filename)
 void Replay::parseStep(const std::string &step)
 {
 
-    if (currentStep != 0) 
+    if (currentStep != 0)
     {
         prevGrids.push_back(currentGrid);
     }

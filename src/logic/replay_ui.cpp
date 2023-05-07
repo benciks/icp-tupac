@@ -3,11 +3,11 @@
 #include <QKeyEvent>
 #include <QDebug>
 
-ReplayUI::ReplayUI(QWidget *parent, QString fileName, bool start) : QWidget(parent)
+ReplayUI::ReplayUI(QWidget *parent, QString fileName, bool start) : QWidget(parent), start(start)
 {
-    //setFocusPolicy(Qt::StrongFocus); // Set focus policy
+    // setFocusPolicy(Qt::StrongFocus); // Set focus policy
     setFocusPolicy(Qt::ClickFocus);
-    setFocus();                      // Set focus on the widget
+    setFocus(); // Set focus on the widget
 
     replay = new Replay(fileName.toStdString(), start);
     replayTimer = new QTimer(this);
@@ -33,7 +33,7 @@ void ReplayUI::switchMode()
         replayTimer->start(150);
     }
     setFocus(); // Add this line to set focus on the widget
-    qDebug() << "Switching mode"; 
+    qDebug() << "Switching mode";
 }
 
 void ReplayUI::keyPressEvent(QKeyEvent *event)
@@ -68,12 +68,13 @@ void ReplayUI::replayStep()
 {
     if (start)
     {
+        std::cout << "next move" << std::endl;
         replay->nextMove();
         update();
     }
     else
     {
-        replay->prevMove();
+        replay->nextMove();
         update();
     }
 }
