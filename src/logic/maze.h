@@ -132,6 +132,7 @@ class Maze
 {
 public:
     Maze(std::string filename);
+    ~Maze();
     int getRows() const;
     int getCols() const;
     int getKeys() const;

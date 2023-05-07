@@ -11,6 +11,7 @@ class Game : public QWidget
     Q_OBJECT
 public:
     Game(QWidget *parent = nullptr, QString fileName = "");
+    ~Game();
     void paintMaze(QPainter &painter);
     void rotatePacman(Direction direction);
     int getGhostCount() { return ghosts; };

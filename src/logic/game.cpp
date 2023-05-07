@@ -56,6 +56,13 @@ Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
     exitOpened = maze->getKeys() == 0;
 }
 
+Game::~Game()
+{
+    delete maze;
+    delete moveTimer;
+    delete ghostTimer;
+}
+
 void Game::movePacman()
 {
     Pacman *pacman = nullptr;
@@ -325,6 +332,16 @@ void Game::endGame(bool victory)
 {
     moveTimer->stop();
     ghostTimer->stop();
+
+    for (int i = 0; i < maze->getRows(); i++)
+    {
+        for (int j = 0; j < maze->getCols(); j++)
+        {
+            MazeElement *element = maze->getElementAt(i, j);
+            delete element;
+        }
+    }
+
     emit gameOver(victory);
 }
 

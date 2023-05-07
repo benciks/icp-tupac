@@ -8,6 +8,18 @@ Maze::Maze(std::string filename)
     loadFromFile(filename);
 }
 
+Maze::~Maze()
+{
+    for (auto &row : grid)
+    {
+        for (auto &element : row)
+        {
+            delete element;
+            element = nullptr;
+        }
+    }
+}
+
 void Maze::loadFromFile(const std::string &filename)
 {
     std::ifstream input(filename);

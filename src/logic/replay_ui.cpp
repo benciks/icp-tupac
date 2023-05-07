@@ -15,6 +15,12 @@ ReplayUI::ReplayUI(QWidget *parent, QString fileName, bool start) : QWidget(pare
     replayTimer->start(150);
 }
 
+ReplayUI::~ReplayUI()
+{
+    delete replay;
+    delete replayTimer;
+}
+
 void ReplayUI::switchMode()
 {
     sequentialMode = !sequentialMode;

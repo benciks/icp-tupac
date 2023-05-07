@@ -11,6 +11,7 @@ class ReplayUI : public QWidget
     Q_OBJECT
 public:
     ReplayUI(QWidget *parent = nullptr, QString fileName = "", bool start = true);
+    ~ReplayUI();
     void paintMaze(QPainter &painter);
     void switchMode();
 
