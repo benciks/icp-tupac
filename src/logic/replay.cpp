@@ -100,8 +100,6 @@ void Replay::parseStep(const std::string &step)
     currentGrid.resize(rows, std::vector<MazeElement *>(cols));
 
     int numGhosts = 0;
-    bool hasStart = false;
-    bool hasTarget = false;
 
     for (int i = 0; i < rows; i++)
     {
@@ -113,15 +111,6 @@ void Replay::parseStep(const std::string &step)
             switch (symbol)
             {
             case 'T':
-                if (!hasTarget)
-                {
-                    hasTarget = true;
-                }
-                else
-                {
-                    std::cerr << "Multiple target positions found!" << std::endl;
-                    exit(1);
-                }
                 currentGrid[i][j] = new Target();
                 break;
             case 'K':
@@ -149,22 +138,8 @@ void Replay::parseStep(const std::string &step)
                     currentGrid[i][j] = new Ghost(pixmap, i, j);
                     numGhosts++;
                 }
-                else
-                {
-                    std::cerr << "Too many ghosts!" << std::endl;
-                    exit(1);
-                }
                 break;
             case 'S':
-                if (!hasStart)
-                {
-                    hasStart = true;
-                }
-                else
-                {
-                    std::cerr << "Multiple starting positions found!" << std::endl;
-                    exit(1);
-                }
                 currentGrid[i][j] = new Pacman(i, j); // Set the initial position
                 break;
             case 'X':
@@ -177,27 +152,8 @@ void Replay::parseStep(const std::string &step)
                 currentGrid[i][j] = new Empty();
                 break;
             default:
-                std::cerr << "Unknown maze symbol " << symbol << std::endl;
-                exit(1);
+                break;
             }
         }
-    }
-
-    if (!hasStart)
-    {
-        std::cerr << "No starting position found!" << std::endl;
-        exit(1);
-    }
-
-    if (!hasTarget)
-    {
-        std::cerr << "No target position found!" << std::endl;
-        exit(1);
-    }
-
-    if (numGhosts == 0)
-    {
-        std::cerr << "No ghosts found!" << std::endl;
-        exit(1);
     }
 }
