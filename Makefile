@@ -15,6 +15,7 @@ else
 	endif
 endif
 
+
 all:
 	cd src; qmake; make
 	cp -r src/$(OUTPUT) .
@@ -23,6 +24,7 @@ all:
 clean:
 	cd src; make clean;
 	rm -rf $(OUTPUT)
+	rm -rf doc/
 
 run: all
 	./$(EXECUTABLE)
@@ -31,4 +33,4 @@ doxygen:
 	doxygen Doxyfile
 
 pack: clean
-	zip -r xbenci01_xpolia05.zip examples/maps src/ Makefile README.txt Doxyfile
+	zip -r xbenci01_xpolia05.zip examples/maps src/logic/ src/data/ src/src.pro src/resources.qrc src/MainWindow.ui src/MainWindow.cpp src/MainWindow.h src/main.cpp Makefile README.txt Doxyfile
