@@ -15,8 +15,8 @@ Replay::Replay(std::string filename, bool start)
     {
         currentStep = 0;
     }
-    maxStep = steps.size() - 1;
 
+    maxStep = steps.size() - 1;
     parseStep(steps[currentStep]);
 }
 
@@ -28,18 +28,6 @@ Replay::~Replay()
         {
             delete element;
             element = nullptr;
-        }
-    }
-
-    for (auto &grid : prevGrids)
-    {
-        for (auto &row : grid)
-        {
-            for (auto &element : row)
-            {
-                delete element;
-                element = nullptr;
-            }
         }
     }
 }
@@ -59,13 +47,11 @@ void Replay::nextMove()
     {
         if (currentStep < maxStep)
         {
-            currentStep++; // Decrement the step in reverse mode
-            currentGrid = prevGrids[currentStep];
-            prevGrids.pop_back();
+            currentStep++;
+            parseStep(steps[currentStep]);
         }
     }
 }
-
 // Get previous step
 void Replay::prevMove()
 {
@@ -74,16 +60,14 @@ void Replay::prevMove()
         if (currentStep > 0)
         {
             currentStep--;
-            currentGrid = prevGrids[currentStep];
-            prevGrids.pop_back();
+            parseStep(steps[currentStep]);
         }
     }
     else // Reverse mode
     {
         if (currentStep > 0)
         {
-            std::cout << "Current step: " << currentStep << std::endl;
-            currentStep--; // Increment the step in reverse mode
+            --currentStep;
             parseStep(steps[currentStep]);
         }
     }
@@ -120,10 +104,14 @@ void Replay::parseFile(const std::string &filename)
 // Parse into grid
 void Replay::parseStep(const std::string &step)
 {
-
-    if (currentStep != 0)
+    // Free the previous grid
+    for (auto &row : currentGrid)
     {
-        prevGrids.push_back(currentGrid);
+        for (auto &element : row)
+        {
+            delete element;
+            element = nullptr;
+        }
     }
 
     std::istringstream input(step);

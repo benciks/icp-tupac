@@ -49,12 +49,26 @@ void ReplayUI::keyPressEvent(QKeyEvent *event)
     {
         if (event->key() == Qt::Key_Right)
         {
-            replay->nextMove();
+            if (start)
+            {
+                replay->nextMove();
+            }
+            else
+            {
+                replay->prevMove();
+            }
             update();
         }
         else if (event->key() == Qt::Key_Left)
         {
-            replay->prevMove();
+            if (start)
+            {
+                replay->prevMove();
+            }
+            else
+            {
+                replay->nextMove();
+            }
             update();
         }
     }

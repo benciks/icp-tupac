@@ -3,12 +3,13 @@
 #include <iostream>
 #include "maze.h"
 #include <vector>
+#include <deque>
 
 class Replay
 {
 public:
     Replay(std::string filename, bool start = true);
-    ~Replay(); 
+    ~Replay();
     void nextMove();
     void prevMove();
     std::vector<std::vector<MazeElement *>> getGrid() { return currentGrid; }
@@ -20,11 +21,10 @@ private:
     int cols;
     bool start;
     size_t currentStep = 0;
-    size_t maxStep;
+    size_t maxStep = 0;
     std::vector<std::string> steps;
     void parseFile(const std::string &filename);
     void parseStep(const std::string &step);
     std::vector<std::vector<MazeElement *>> currentGrid;
-    std::vector<std::vector<std::vector<MazeElement *>>> prevGrids;
 };
 #endif // ICP_PACMAN_REPLAY_H
