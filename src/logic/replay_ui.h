@@ -1,8 +1,8 @@
 /**
  * @author Šimon Benčík <xbenci01>
  * @author Roman Poliačik <xpolia05>
- * @file replay_ui.cpp
- * @brief Implementation file for the replay user interface.
+ * @file replay_ui.h
+ * @brief Header file for the replay user interface.
  */
 
 #ifndef ICP_PACMAN_REPLAYUI_H
