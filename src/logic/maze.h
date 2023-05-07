@@ -20,24 +20,28 @@ enum class Direction
 class MazeElement
 {
 public:
+    virtual ~MazeElement() {}
     virtual char getSymbol() = 0;
 };
 
 class Wall : public MazeElement
 {
 public:
+    ~Wall() {}
     char getSymbol() override;
 };
 
 class Empty : public MazeElement
 {
 public:
+    ~Empty() {}
     char getSymbol() override;
 };
 
 class Collectible : public MazeElement
 {
 public:
+    ~Collectible() {}
     char getSymbol() override;
     QPixmap getPixmap() const { return QPixmap(":/images/data/fruit.png"); }
 };
@@ -46,6 +50,7 @@ class Pacman : public MazeElement
 {
 public:
     Pacman(int row, int col) : row(row), col(col), currentDirection(Direction::RIGHT), currentSprite(QPixmap(":/images/data/pacman_right.png")) {} // Initialize currentDirection
+    ~Pacman() {}
     char getSymbol() override;
     void move(Direction &currentDirection, const Maze &maze, bool keyCollected);
 
@@ -78,6 +83,7 @@ class Ghost : public MazeElement
 {
 public:
     Ghost(const QPixmap &pixmap, int row, int col) : pixmap(pixmap), row(row), col(col) {}
+    ~Ghost() {}
     char getSymbol() override;
     const QPixmap &getPixmap() const { return pixmap; }
     void chase(Pacman &pacman, const Maze &maze);
@@ -109,6 +115,7 @@ private:
 class Key : public MazeElement
 {
 public:
+    ~Key() {}
     char getSymbol() override;
     QPixmap getPixmap() const { return QPixmap(":/images/data/key.png"); }
 };
@@ -116,6 +123,7 @@ public:
 class Target : public MazeElement
 {
 public:
+    ~Target() {}
     char getSymbol() override;
     QPixmap getPixmap() const { return QPixmap(":/images/data/door.png"); }
 };

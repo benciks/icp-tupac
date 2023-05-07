@@ -21,6 +21,29 @@ Replay::Replay(std::string filename, bool start)
     parseStep(steps[currentStep]);
 }
 
+Replay::~Replay()
+{
+    for (auto &row : currentGrid)
+    {
+        for (auto &element : row)
+        {
+            delete element;
+            element = nullptr;
+        }
+    }
+
+    for (auto &grid : prevGrids)
+    {
+        for (auto &row : grid)
+        {
+            for (auto &element : row)
+            {
+                delete element;
+                element = nullptr;
+            }
+        }
+    }
+}
 
 // Get next step
 void Replay::nextMove()
@@ -99,7 +122,8 @@ void Replay::parseFile(const std::string &filename)
 // Parse into grid
 void Replay::parseStep(const std::string &step)
 {
-    if (currentStep != 0) // Add this condition to prevent pushing the first step into prevGrids
+
+    if (currentStep != 0) 
     {
         prevGrids.push_back(currentGrid);
     }
