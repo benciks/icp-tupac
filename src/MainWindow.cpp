@@ -40,10 +40,17 @@ void MainWindow::loadFile()
 
 void MainWindow::loadReplay()
 {
+    QString replayFolder;
+#ifdef __APPLE__
+    replayFolder = QCoreApplication::applicationDirPath() + "/../../../replays";
+#else
+    replayFolder = QCoreApplication::applicationDirPath() + "/replays";
+#endif
+
     QString file = QFileDialog::getOpenFileName(
         this,
         tr("Open File"),
-        QCoreApplication::applicationDirPath() + "/replays",
+        replayFolder,
         tr("Text Files (*.txt);;All Files (*)"));
 
     if (file.isEmpty())
