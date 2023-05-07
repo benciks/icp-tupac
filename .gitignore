@@ -1,7 +1,6 @@
-examples/
+examples/replays/*
 build-*/
 /.DS_Store
 pacman.app
 pacman
 pacman.exe
-replays/

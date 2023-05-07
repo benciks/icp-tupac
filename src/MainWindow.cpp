@@ -46,9 +46,9 @@ void MainWindow::loadReplay()
 {
     QString replayFolder;
 #ifdef __APPLE__
-    replayFolder = QCoreApplication::applicationDirPath() + "/../../../replays";
+    replayFolder = QCoreApplication::applicationDirPath() + "/../../../examples/replays";
 #else
-    replayFolder = QCoreApplication::applicationDirPath() + "/replays";
+    replayFolder = QCoreApplication::applicationDirPath() + "/examples/replays";
 #endif
 
     QDir replayDir(replayFolder);
@@ -56,7 +56,7 @@ void MainWindow::loadReplay()
 
     QDialog fileDialog(this);
     fileDialog.setWindowTitle(tr("Select a Replay File"));
-    //fileDialog.setStyleSheet("QDialog { background-color: orange; } QListWidget { background-color: orange; color: black; } QPushButton { background-color: white; color: black; } QDialogButtonBox { background-color: white; }");
+    // fileDialog.setStyleSheet("QDialog { background-color: orange; } QListWidget { background-color: orange; color: black; } QPushButton { background-color: white; color: black; } QDialogButtonBox { background-color: white; }");
     fileDialog.setStyleSheet("QDialog { background-color: black; } QListWidget { background-color: black; color: white; } QPushButton { background-color: #4A298C; color: black; } QDialogButtonBox { background-color: black; }");
     QVBoxLayout *fileDialogLayout = new QVBoxLayout(&fileDialog);
 
@@ -77,7 +77,7 @@ void MainWindow::loadReplay()
     connect(buttonBox, &QDialogButtonBox::accepted, &fileDialog, &QDialog::accept);
     connect(buttonBox, &QDialogButtonBox::rejected, &fileDialog, &QDialog::reject);
     connect(browseButton, &QPushButton::clicked, [&]()
-    {
+            {
         QString file = QFileDialog::getOpenFileName(
             &fileDialog,
             tr("Open File"),
@@ -89,8 +89,7 @@ void MainWindow::loadReplay()
             listWidget->clear();
             listWidget->addItem(file);
             listWidget->setCurrentRow(0);
-        }
-    });
+        } });
 
     if (fileDialog.exec() == QDialog::Accepted)
     {

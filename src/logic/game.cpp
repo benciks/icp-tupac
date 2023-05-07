@@ -21,9 +21,9 @@ Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
     if (fileName == "")
     {
 #ifdef __APPLE__
-        QString defaultMazePath = QCoreApplication::applicationDirPath() + "/../../../src/data/maps/maze.txt";
+        QString defaultMazePath = QCoreApplication::applicationDirPath() + "/../../../examples/maps/original.txt";
 #else
-        QString defaultMazePath = QCoreApplication::applicationDirPath() + "/src/data/maps/maze.txt";
+        QString defaultMazePath = QCoreApplication::applicationDirPath() + "/examples/maps/original.txt";
 #endif
         QFileInfo mazeFileInfo(defaultMazePath);
 
@@ -56,13 +56,13 @@ Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
     // Generate a random file name for the save file in replays folder
     QString replayPath;
 #ifdef __APPLE__
-    replayPath = QCoreApplication::applicationDirPath() + "/../../../replays/";
+    replayPath = QCoreApplication::applicationDirPath() + "/../../../examples/replays/";
 #else
-    replayPath = QCoreApplication::applicationDirPath() + "/replays/";
+    replayPath = QCoreApplication::applicationDirPath() + "/examples/replays/";
 #endif
 
     QDir().mkdir(replayPath);
-    replayFileName = replayPath + QString::number(QDateTime::currentMSecsSinceEpoch()) + ".txt";
+    replayFileName = replayPath + QDateTime::currentDateTime().toString("yyyyMMdd_hhmmsszzz") + ".txt";
 
     exitOpened = maze->getKeys() == 0;
 }
