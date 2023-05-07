@@ -18,9 +18,9 @@ public:
 private:
     int rows;
     int cols;
-    int maxStep;
     bool start;
-    int currentStep = 0;
+    size_t currentStep = 0;
+    size_t maxStep;
     std::vector<std::string> steps;
     void parseFile(const std::string &filename);
     void parseStep(const std::string &step);
