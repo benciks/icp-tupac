@@ -68,6 +68,7 @@ public slots:
 private:
     Ui::MainWindow *ui; /**< The MainWindow object*/
     QLabel *scoreLabel; /**< The label displaying the score*/
+    QLabel *keysLabel;  /**< The label displaying the number of keys*/
     int score = 0;      /**< The current score*/
     QString fileName;   /**< The name of the maze file*/
     QString replayFile; /**< The name of the replay file*/
@@ -78,6 +79,11 @@ private slots:
      * @param newScore The new score.
      */
     void updateScoreLabel(int newScore);
+    /**
+     * @brief Updates the keys label.
+     * @param keys The number of keys.
+     */
+    void updateKeysLabel(int keys);
     /**
      * @brief Displays the game over screen.
      * @param victory A boolean indicating whether the player won or lost.

@@ -58,6 +58,7 @@ private:
     bool exitOpened = false; /**< Whether the exit has been opened. */
     int keysCollected = 0;   /**< The number of keys collected. */
     int score = 0;           /**< The current score. */
+    int steps = 0;           /**< The number of steps taken. */
     int ghosts = 0;          /**< The number of ghosts. */
 
 protected:
@@ -105,6 +106,13 @@ signals:
      * @param newScore The new score.
      */
     void scoreChanged(int newScore);
+
+    /**
+     * @brief Signal for score change.
+     * @param newKeyCount The new score.
+     */
+    void keysChanged(int newKeyCount);
+
     /**
      * @brief Signal for game over.
      * @param victory Whether the player won.

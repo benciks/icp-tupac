@@ -20,6 +20,7 @@
 #include <QListWidget>
 #include <QDialog>
 #include <QDialogButtonBox>
+#include <QMessageBox>
 
 void MainWindow::updateScoreLabel(int newScore)
 {
@@ -27,7 +28,10 @@ void MainWindow::updateScoreLabel(int newScore)
     scoreLabel->setText(QString("Score: %1").arg(newScore));
 }
 
-#include <QMessageBox>
+void MainWindow::updateKeysLabel(int newStep)
+{
+    keysLabel->setText(QString("Keys: %1").arg(newStep));
+}
 
 void MainWindow::loadFile()
 {
@@ -299,9 +303,11 @@ void MainWindow::startGame()
     game->setGeometry(QRect(10, 10, 500, 500));
 
     scoreLabel = new QLabel(this);
+    keysLabel = new QLabel(this);
 
     QVBoxLayout *layout = new QVBoxLayout();
     layout->addWidget(scoreLabel, 0, Qt::AlignCenter); // Center the score label
+    layout->addWidget(keysLabel, 0, Qt::AlignCenter);  // Center the steps label
     layout->addWidget(game, 30);
     layout->setContentsMargins(0, 0, 0, 0);
 
@@ -310,11 +316,17 @@ void MainWindow::startGame()
     scoreLabel->setFont(QFont("Arial", 16));
     scoreLabel->setMargin(0);
 
+    keysLabel->setText("Keys: 0");
+    keysLabel->setStyleSheet("color: #FFFFFF;");
+    keysLabel->setFont(QFont("Arial", 16));
+    keysLabel->setMargin(0);
+
     QWidget *centralWidget = new QWidget();
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
 
     connect(game, &Game::scoreChanged, this, &MainWindow::updateScoreLabel); // Connect the signal to the slot
+    connect(game, &Game::keysChanged, this, &MainWindow::updateKeysLabel);   // Connect the signal to the slot
     connect(game, &Game::gameOver, this, &MainWindow::gameOver);
 }
 

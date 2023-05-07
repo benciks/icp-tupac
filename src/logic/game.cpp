@@ -124,6 +124,7 @@ void Game::movePacman()
         if (nextElement->getSymbol() == 'K')
         {
             keysCollected++;
+            emit keysChanged(keysCollected);
             if (keysCollected == maze->getKeys())
             {
                 exitOpened = true;

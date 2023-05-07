@@ -38,7 +38,7 @@ void ReplayUI::switchMode()
     {
         replayTimer->start(150);
     }
-    setFocus(); // Add this line to set focus on the widget
+    setFocus();
     qDebug() << "Switching mode";
 }
 

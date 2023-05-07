@@ -1,4 +1,3 @@
-# Set the output file name based on the OS
 OUTPUT =
 EXECUTABLE =
 
@@ -16,7 +15,6 @@ else
 	endif
 endif
 
-# Recursively run make in src
 all:
 	cd src; qmake; make
 	cp -r src/$(OUTPUT) .
@@ -25,13 +23,12 @@ all:
 clean:
 	cd src; make clean;
 	rm -rf $(OUTPUT)
-	rm -rf doc/
 
-run:
+run: all
 	./$(EXECUTABLE)
 
 doxygen:
 	doxygen Doxyfile
 
-pack:
+pack: clean
 	zip -r xbenci01_xpolia05.zip examples/maps src/ Makefile README.txt Doxyfile
