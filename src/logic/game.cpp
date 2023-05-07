@@ -62,7 +62,7 @@ Game::Game(QWidget *parent, QString fileName) : QWidget(parent)
 #endif
 
     QDir().mkdir(replayPath);
-    replayFileName = replayPath + QDateTime::currentDateTime().toString("yyyyMMdd_hhmmsszzz") + ".txt";
+    replayFileName = replayPath + QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss") + ".txt";
 
     exitOpened = maze->getKeys() == 0;
 }
