@@ -1,3 +1,10 @@
+/**
+ * @author Šimon Benčík <xbenci01>
+ * @author Roman Poliačik <xpolia05>
+ * @file path.cpp
+ * @brief Implementation file for the pathfinding algorithm.
+ */
+
 #include <iostream>
 #include <queue>
 #include "path.h"

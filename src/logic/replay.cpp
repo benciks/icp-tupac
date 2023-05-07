@@ -1,3 +1,10 @@
+/**
+ * @author Šimon Benčík <xbenci01>
+ * @author Roman Poliačik <xpolia05>
+ * @file replay.cpp
+ * @brief Implementation file for the replay.
+ */
+
 #include "replay.h"
 #include <fstream>
 #include <iostream>

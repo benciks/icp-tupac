@@ -6,3 +6,4 @@ pacman
 pacman.exe
 examples/.DS_Store
 .vscode/
+doc/

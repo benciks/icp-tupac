@@ -1,3 +1,10 @@
+/**
+ * @author Šimon Benčík <xbenci01>
+ * @author Roman Poliačik <xpolia05>
+ * @file maze.cpp
+ * @brief Implementation file for the maze.
+ */
+
 #include "maze.h"
 #include <fstream>
 #include <iostream>

@@ -1,3 +1,10 @@
+/**
+ * @author Šimon Benčík <xbenci01>
+ * @author Roman Poliačik <xpolia05>
+ * @file game.cpp
+ * @brief Game implementation file.
+ */
+
 #include "game.h"
 #include "maze.h"
 

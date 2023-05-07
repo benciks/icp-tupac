@@ -1,3 +1,10 @@
+/**
+ * @author Šimon Benčík <xbenci01>
+ * @author Roman Poliačik <xpolia05>
+ * @file MainWindow.cpp
+ * @brief Implementation file for the main window.
+ */
+
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "logic/game.h"
