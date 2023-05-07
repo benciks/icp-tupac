@@ -10,13 +10,12 @@ Replay::Replay(std::string filename, bool start)
     if (!start)
     {
         currentStep = steps.size() - 1;
-        maxStep = 0;
     }
     else
     {
         currentStep = 0;
-        maxStep = steps.size() - 1;
     }
+    maxStep = steps.size() - 1;
 
     parseStep(steps[currentStep]);
 }
@@ -58,9 +57,9 @@ void Replay::nextMove()
     }
     else // Reverse mode
     {
-        if (currentStep > 0)
+        if (currentStep < maxStep)
         {
-            --currentStep; // Decrement the step in reverse mode
+            currentStep++; // Decrement the step in reverse mode
             currentGrid = prevGrids[currentStep];
             prevGrids.pop_back();
         }
@@ -81,9 +80,10 @@ void Replay::prevMove()
     }
     else // Reverse mode
     {
-        if (currentStep < maxStep)
+        if (currentStep > 0)
         {
-            currentStep++; // Increment the step in reverse mode
+            std::cout << "Current step: " << currentStep << std::endl;
+            currentStep--; // Increment the step in reverse mode
             parseStep(steps[currentStep]);
         }
     }

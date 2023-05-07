@@ -68,13 +68,12 @@ void ReplayUI::replayStep()
 {
     if (start)
     {
-        std::cout << "next move" << std::endl;
         replay->nextMove();
         update();
     }
     else
     {
-        replay->nextMove();
+        replay->prevMove();
         update();
     }
 }
