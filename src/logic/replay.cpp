@@ -128,7 +128,7 @@ void Replay::parseStep(const std::string &step)
                     switch (numGhosts)
                     {
                     case 0:
-                        pixmap = QPixmap(":/images/data/blink.png");
+                        pixmap = QPixmap(":/images/data/blinky.png");
                         break;
                     case 1:
                         pixmap = QPixmap(":/images/data/pinky.png");
